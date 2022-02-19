@@ -1,0 +1,89 @@
+from unicodedata import category
+from django.db import models
+from django.urls import reverse
+
+# Create your models here.
+class TimeStamp(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Unit(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    unit_code = models.CharField(max_length=25, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.unit_code
+
+
+class MenuCategory(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    category_name = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.category_name
+
+
+class MenuItems(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    category = models.ForeignKey(MenuCategory, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=255, unique=True)
+    price = models.FloatField()
+    unit = models.ForeignKey(Unit, null=True, on_delete=models.SET_NULL)
+    recipe = models.TextField(blank=True)
+    thumbnail = models.ImageField(blank=True, default="")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
+class PurchaseItemsCategory(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    category_name = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.category_name
+   
+
+class PurchaseItems(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    category = models.ForeignKey(PurchaseItemsCategory, on_delete=models.PROTECT)
+    name = models.CharField(max_length=255, unique=True)
+    brand = models.CharField(max_length=255)
+    thumbnail = models.ImageField(blank=True, default="")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+class RoomCategory(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    caregory_name = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.category_name
+
+class RoomDetails(TimeStamp):
+    ROOM_TYPE = (
+        (1,'Twin Bed'),
+        (2,'Couple Bed'),
+        (3,'King Bed'),
+    )
+    id = models.BigAutoField(primary_key=True)
+    category = models.ForeignKey(RoomCategory, on_delete=models.PROTECT)
+    room_name = models.CharField(max_length=255)
+    price = models.FloatField()
+    room_type = models.CharField(choices=ROOM_TYPE, max_length=255)
+    room_capacity = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.room_name
+

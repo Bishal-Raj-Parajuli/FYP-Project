@@ -3,11 +3,11 @@ from . import views
 
 urlpatterns = [
     #Views
-    path('', views.LoginView, name='login_view'),
-    path('dashboard', views.DashboardView, name='dashboard_view'),
+    path('', views.LoginView, name='login-view'),
+    path('dashboard', views.DashboardView, name='dashboard-view'),
 
     #Process
-    path('login-process', views.LoginProcess, name='login_process'),
-    path('logout-process', views.LogoutProcess, name='logout_process')
+    path('login-process', views.LoginProcess, name='login-process'),
+    path('logout-process', views.LogoutProcess, name='logout-process')
 
 ]
