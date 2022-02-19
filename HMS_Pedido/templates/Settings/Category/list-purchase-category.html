@@ -12,7 +12,7 @@
 {% block content %}
 <div class="card">
     <div class="card-header justify-content-between">
-        <div class="m-2"><a href="#" class="btn btn-warning">+Add</a></div>
+        <div class="m-2"><a href="#" class="btn btn-primary">+Add</a></div>
       <div class="card-header-form">
         <form method="POST">
             {% csrf_token %}
@@ -34,14 +34,18 @@
             <th>Status</th>
             <th>Actions</th>
           </tr>
+          {% for object in objects %}
           <tr>
-            {% for object in objects %}
             <td>{{ forloop.counter }}</td>
             <td>{{ object.category_name }}</td>
-            <td><div class="badge badge-secondary">{{ object.status }}</div></td>
+            {% if object.is_active %}
+                <td><div class="badge" style="background-color: rgb(27, 173, 83); color: white;">Active</div></td>
+            {% elif not object.is_active %}
+                <td><div class="badge" style="background-color: rgb(179, 28, 28); color: white;">In-Active</div></td>
+            {% endif %}
             <td><a href="#" class="btn btn-primary">Edit</a><a href="#" class="btn btn-primary" style="margin-left: 5px;">Delete</a></td>
-            {% endfor %}
           </tr>
+          {% endfor %}
         </tbody></table>
       </div>
     </div>
