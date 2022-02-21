@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from unicodedata import category
 from django.db import models
 from django.urls import reverse
@@ -12,11 +13,15 @@ class TimeStamp(models.Model):
 
 class Unit(TimeStamp):
     id = models.BigAutoField(primary_key=True)
+    unit_name = models.CharField(max_length=50, unique=True)
     unit_code = models.CharField(max_length=25, unique=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.unit_code
+
+    class Meta:
+        verbose_name_plural = 'Unit'
 
 
 class MenuCategory(TimeStamp):
@@ -26,7 +31,8 @@ class MenuCategory(TimeStamp):
 
     def __str__(self):
         return self.category_name
-
+    class Meta:
+        verbose_name_plural = 'Menu Category'
 
 class MenuItems(TimeStamp):
     id = models.BigAutoField(primary_key=True)
@@ -40,7 +46,8 @@ class MenuItems(TimeStamp):
 
     def __str__(self):
         return self.name
-
+    class Meta:
+        verbose_name_plural = 'Menu Items'
 
 class PurchaseItemsCategory(TimeStamp):
     id = models.BigAutoField(primary_key=True)
@@ -49,8 +56,8 @@ class PurchaseItemsCategory(TimeStamp):
 
     def __str__(self):
         return self.category_name
-   
-
+    class Meta:
+        verbose_name_plural = 'Purchase Category'
 class PurchaseItems(TimeStamp):
     id = models.BigAutoField(primary_key=True)
     category = models.ForeignKey(PurchaseItemsCategory, on_delete=models.PROTECT)
@@ -61,15 +68,17 @@ class PurchaseItems(TimeStamp):
 
     def __str__(self):
         return self.name
-
+    class Meta:
+        verbose_name_plural = 'Purchase Item'
 class RoomCategory(TimeStamp):
     id = models.BigAutoField(primary_key=True)
-    caregory_name = models.CharField(max_length=255, unique=True)
+    category_name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.category_name
-
+    class Meta:
+        verbose_name_plural = 'Room Category'
 class RoomDetails(TimeStamp):
     ROOM_TYPE = (
         (1,'Twin Bed'),
@@ -86,4 +95,5 @@ class RoomDetails(TimeStamp):
 
     def __str__(self):
         return self.room_name
-
+    class Meta:
+        verbose_name_plural = 'Rooms'
