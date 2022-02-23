@@ -1,0 +1,50 @@
+{% extends 'Main/base.html' %}
+
+{% block title %}
+    Purchase List
+{% endblock title %}
+
+{% block page_title %}
+ Purchase | Purchase List
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header justify-content-between">
+        <div class="m-2"><a href="#" class="btn btn-warning">+Add</a></div>
+      <div class="card-header-form">
+        <form method="POST">
+            {% csrf_token %}
+          <div class="input-group">
+            <input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" placeholder="Search" name="list-search">
+            <div class="input-group-btn">
+              <button class="btn btn-primary" style="border-radius: 0px 5px 5px 0px; margin: 0;" type="submit" ><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tbody><tr>
+            <th>S.N</th>
+            <th>Purchase No.</th>
+            <th>Total Bill</th>
+            <th>Actions</th>
+          </tr>
+          {% for object in objects %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ object.invoice_no }}</td>
+                <td>{{ object.total_bill }}</td>
+                <td><a href="#" class="btn btn-primary">Edit</a><a href="#" class="btn btn-primary" style="margin-left: 5px;">Delete</a></td>
+            </tr>
+          {% endfor %}
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+    
