@@ -1,0 +1,130 @@
+{% extends 'Main/base.html' %}
+
+{% block title %}
+   Add Purchase
+{% endblock title %}
+
+{% block page_title %}
+ Purchase | Add Purchase
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="m-2"><a href="{% url 'list-purchase'  %}" class="btn btn-primary">Back</a></div>
+    </div>
+    <div class="card-body">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Invoice No.</label>
+                    <input type="text" class="form-control" name="invoice-no">
+                </div>
+                <div class="form-group mx-2">
+                    <label>Vendor</label>
+                    <select class="form-control" name="vendor">
+                        {% for vendor in vendors %}
+                            <option value="{{ vendor.id }}"> {{ vendor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div> 
+            </div>
+            <hr>
+
+            <!-- Purchase Items -->
+            <div class="card">
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-md">
+                      <tbody><tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
+                        <th>Rate</th>
+                        <th>Total</th>
+                      </tr>
+
+                       <tr>
+                        <td>
+                            <select class="form-control" name="purchase-item[]">
+                                {% for item in purchaseItems %}
+                                    <option value="{{ item.id }}"> {{ item.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="qty[]" style="width: 100px;">
+                        </td>
+                        <td>
+                            <select class="form-control" name="unit[]" style="width: 100px;">
+                                {% for unit in units %}
+                                    <option value="{{ unit.id }}"> {{ unit.unit_code }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="rate[]" style="width: 100px;">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="total[]" style="width: 100px;">
+                        </td>
+                      </tr> 
+                      
+                        </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                    <div class="container row justify-content-end">
+                        <a id="add_more_fields" class="btn btn-primary mb-2" style="color: white;">Add Line</a>
+                    </div>
+                </div>
+              </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+
+    
+{% block javascript %}
+
+    const tbodyEl = document.querySelector("tbody")
+    const add_more_fields = document.getElementById('add_more_fields');
+
+    function addFields(e){
+        e.preventDefault
+        tbodyEl.innerHTML += `
+            <tr>
+                <td>
+                    <select class="form-control" name="purchase-item[]">
+                        {% for item in purchaseItems %}
+                            <option value="{{ item.id }}"> {{ item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="qty[]" style="width: 100px;">
+                </td>
+                <td>
+                    <select class="form-control" name="unit[]" style="width: 100px;">
+                        {% for unit in units %}
+                            <option value="{{ unit.id }}"> {{ unit.unit_code }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="rate[]" style="width: 100px;">
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="total[]" style="width: 100px;">
+                </td>
+            </tr>
+        `;
+    }
+
+    add_more_fields.addEventListener("click", addFields);
+
+{% endblock javascript %}

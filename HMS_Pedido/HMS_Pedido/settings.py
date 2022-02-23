@@ -45,6 +45,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'HMS_Pedido.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

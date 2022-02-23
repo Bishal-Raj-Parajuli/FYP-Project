@@ -22,7 +22,7 @@ class PurchaseMaster(TimeStamp):
     total_bill = models.FloatField(default=0)
 
     def __str__(self) -> str:
-        return self.invoice_no
+        return str(self.id)
 
     class Meta:
         verbose_name_plural = 'Purchase Master'

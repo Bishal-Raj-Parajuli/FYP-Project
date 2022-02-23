@@ -96,7 +96,11 @@ body {
       </footer>
     </div>
   </div>
-
+<script>
+    {% block javascript %}
+    
+    {% endblock javascript%}
+</script>
   <!-- General JS Scripts -->
   <script src="{% static '/modules/jquery.min.js' %}"></script>
   <script src="{% static '/modules/popper.js' %}"></script>

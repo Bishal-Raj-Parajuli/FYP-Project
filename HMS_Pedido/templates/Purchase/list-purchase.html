@@ -12,7 +12,7 @@
 {% block content %}
 <div class="card">
     <div class="card-header justify-content-between">
-        <div class="m-2"><a href="#" class="btn btn-warning">+Add</a></div>
+        <div class="m-2"><a href="{% url 'add-purchase'  %}" class="btn btn-warning">+Add</a></div>
       <div class="card-header-form">
         <form method="POST">
             {% csrf_token %}
