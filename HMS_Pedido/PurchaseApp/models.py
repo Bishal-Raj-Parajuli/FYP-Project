@@ -18,7 +18,7 @@ class Vendor(TimeStamp):
 class PurchaseMaster(TimeStamp):
     id = models.BigAutoField(primary_key=True)
     invoice_no = models.CharField(max_length=100, unique=True, blank=False, null=False)
-    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
+    vendor = models.ForeignKey(Vendor, default='', on_delete=models.SET_DEFAULT, null=False, blank=False)
     total_bill = models.FloatField(default=0)
 
     def __str__(self) -> str:
@@ -42,7 +42,4 @@ class PurchaseDetails(TimeStamp):
     class Meta:
         verbose_name_plural = 'Purchase Details'
 
-    def save(self, *args, **kwargs):
-        self.total = self.qty*self.rate
-        super(PurchaseDetails, self).save(*args, **kwargs)
 

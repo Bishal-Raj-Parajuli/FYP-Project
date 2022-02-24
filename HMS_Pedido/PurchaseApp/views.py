@@ -28,20 +28,26 @@ class AddPurchase(View):
         return render(request, 'Purchase/add-purchase.html', context)
 
     def post(self, request, *args, **kwargs):
-        invoice_no = request.POST['invoice-no']
-        vendor_id = request.POST['vendor']
-        if invoice_no == '':
-            context = {
-                'message': 'Invoice No. is Required !!!'
-            }
-            return render(request, 'Purchase/add-purchase.html', context)
+        ## Purchase Master ##
+        invoice_no = request.POST.get('invoice-no')
+        vendor_id = request.POST.get('vendor', '')
+        grand_total = request.POST.get('grand-total')
         vendor = Vendor.objects.get(id=vendor_id)
-        total_bill = 2000
-        purchase_master = PurchaseMaster(invoice_no=invoice_no, vendor=vendor, total_bill=total_bill)
+        purchase_master = PurchaseMaster(invoice_no=invoice_no, vendor=vendor, total_bill=grand_total)
         purchase_master.save()
 
-        ### TODO SAVE PURCHASE ITEMS IN PURCHASE DETAILS ###
-        purchase_id = PurchaseMaster.objects.get(invoice_no=invoice_no)
+        ## Purchase Details ##
+        purchase_item_id = request.POST.getlist('purchase-item[]')
+        qty = request.POST.getlist('qty[]')
+        unit_id = request.POST.getlist('unit[]')
+        rate = request.POST.getlist('rate[]')
+        total = request.POST.getlist('total[]')
+        
+        i=0
+        for item in purchase_item_id:
+            purchase_item = PurchaseItems.objects.get(id=item)
+            unit = Unit.objects.get(id=unit_id[i])
+            purchase_detail = PurchaseDetails(purchase_main=purchase_master, item=purchase_item, qty=qty[i], unit=unit, rate=rate[i], total=total[i])
+            purchase_detail.save()
         
         return HttpResponse("Done")
-        
