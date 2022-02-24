@@ -17,7 +17,7 @@ class Vendor(TimeStamp):
 
 class PurchaseMaster(TimeStamp):
     id = models.BigAutoField(primary_key=True)
-    invoice_no = models.CharField(max_length=100, unique=True)
+    invoice_no = models.CharField(max_length=100, unique=True, blank=False, null=False)
     vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
     total_bill = models.FloatField(default=0)
 

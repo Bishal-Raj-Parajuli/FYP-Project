@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 from .models import Vendor, PurchaseMaster, PurchaseDetails
@@ -30,6 +30,11 @@ class AddPurchase(View):
     def post(self, request, *args, **kwargs):
         invoice_no = request.POST['invoice-no']
         vendor_id = request.POST['vendor']
+        if invoice_no == '':
+            context = {
+                'message': 'Invoice No. is Required !!!'
+            }
+            return render(request, 'Purchase/add-purchase.html', context)
         vendor = Vendor.objects.get(id=vendor_id)
         total_bill = 2000
         purchase_master = PurchaseMaster(invoice_no=invoice_no, vendor=vendor, total_bill=total_bill)
@@ -38,7 +43,5 @@ class AddPurchase(View):
         ### TODO SAVE PURCHASE ITEMS IN PURCHASE DETAILS ###
         purchase_id = PurchaseMaster.objects.get(invoice_no=invoice_no)
         
-
-
         return HttpResponse("Done")
         
