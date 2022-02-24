@@ -49,5 +49,24 @@ class AddPurchase(View):
             unit = Unit.objects.get(id=unit_id[i])
             purchase_detail = PurchaseDetails(purchase_main=purchase_master, item=purchase_item, qty=qty[i], unit=unit, rate=rate[i], total=total[i])
             purchase_detail.save()
-        
-        return HttpResponse("Done")
+            i=i+1
+        return render(request, 'Purchase/list-purchase.html', {'message':'Successfully Addes Item !!!'})
+
+def ViewPurchase(request, pk):
+    if request.method == 'GET':
+        objects = PurchaseDetails.objects.filter(purchase_main=pk)
+        context = {
+            'objects': objects
+        }
+        return render(request, 'Purchase/view-purchase.html', context)
+
+def DeletePurchase(request, pk):
+    if request.method == 'GET':
+        PurchaseMasterobject = PurchaseMaster.objects.get(pk=pk)
+        PurchaseDetailobject = PurchaseDetails.objects.filter(purchase_main = pk)
+        PurchaseMasterobject.delete()
+        PurchaseDetailobject.delete()
+        context = {
+            'message': 'Successfully Deleted !!!'
+        }
+        return render(request, 'Purchase/view-purchase.html', context)

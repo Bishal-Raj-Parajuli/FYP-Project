@@ -1,24 +1,18 @@
 {% extends 'Main/base.html' %}
 
 {% block title %}
-    Purchase List
+    Purchase Details
 {% endblock title %}
 
 {% block page_title %}
- Purchase | Purchase List
+ Settings | Purchase Details
 {% endblock page_title %}
 
 
 {% block content %}
-{% if message %}
-<div class="alert alert-primary">
-    {{ message}}
-</div>
-{% endif %}
-
 <div class="card">
     <div class="card-header justify-content-between">
-        <div class="m-2"><a href="{% url 'add-purchase'  %}" class="btn btn-warning">+Add</a></div>
+        <div class="m-2"><a href="#" class="btn btn-warning">Back</a></div>
       <div class="card-header-form">
         <form method="POST">
             {% csrf_token %}
@@ -36,32 +30,23 @@
         <table class="table table-striped">
           <tbody><tr>
             <th>S.N</th>
-            <th>Purchase No.</th>
-            <th>Vendor</th>
-            <th>Total Bill</th>
-            <th>Purchase Date</th>
-            <th>Actions</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Total</th>
           </tr>
           {% for object in objects %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ object.invoice_no }}</td>
-                <td>{{ object.vendor }}</td>
-                <td>Rs. {{ object.total_bill }}</td>
-                <td>{{ object.created_at }}</td>
-                <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" onclick="showMessage('Are you Sure You want to Delete ??')" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
-            </tr>
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ object.item }}</td>
+            <td>{{ object.qty }} {{ object.unit}}</td>
+            <td>{{ object.rate }}/ {{ object.unit}}</td>
+            <td>Rs. {{ object.total }}</td>
+          </tr>
           {% endfor %}
         </tbody></table>
       </div>
     </div>
   </div>
 {% endblock content %}
-
-{% block javascript %}
-  function showMessage(msg){
-      alert(msg)
-      consl
-  }
-{% endblock %}
     
