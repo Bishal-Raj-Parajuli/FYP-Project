@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.views import View
 from .models import Vendor, PurchaseMaster, PurchaseDetails
 from SettingsApp.models import PurchaseItems, Unit
@@ -50,13 +51,15 @@ class AddPurchase(View):
             purchase_detail = PurchaseDetails(purchase_main=purchase_master, item=purchase_item, qty=qty[i], unit=unit, rate=rate[i], total=total[i])
             purchase_detail.save()
             i=i+1
-        return render(request, 'Purchase/list-purchase.html', {'message':'Successfully Addes Item !!!'})
+        return HttpResponseRedirect(reverse('list-purchase'))
 
 def ViewPurchase(request, pk):
     if request.method == 'GET':
-        objects = PurchaseDetails.objects.filter(purchase_main=pk)
+        purchaseObjects = PurchaseDetails.objects.filter(purchase_main=pk)
+        purchaseMasterObjects = PurchaseMaster.objects.get(pk=pk)
         context = {
-            'objects': objects
+            'purchaseObjects': purchaseObjects,
+            'purchaseMasterObjects': purchaseMasterObjects
         }
         return render(request, 'Purchase/view-purchase.html', context)
 
@@ -69,4 +72,4 @@ def DeletePurchase(request, pk):
         context = {
             'message': 'Successfully Deleted !!!'
         }
-        return render(request, 'Purchase/view-purchase.html', context)
+        return HttpResponseRedirect(reverse('list-purchase'))

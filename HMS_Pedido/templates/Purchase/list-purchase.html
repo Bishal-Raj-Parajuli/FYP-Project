@@ -18,7 +18,7 @@
 
 <div class="card">
     <div class="card-header justify-content-between">
-        <div class="m-2"><a href="{% url 'add-purchase'  %}" class="btn btn-warning">+Add</a></div>
+        <div class="m-2"><a href="{% url 'add-purchase'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
       <div class="card-header-form">
         <form method="POST">
             {% csrf_token %}
@@ -49,7 +49,7 @@
                 <td>{{ object.vendor }}</td>
                 <td>Rs. {{ object.total_bill }}</td>
                 <td>{{ object.created_at }}</td>
-                <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" onclick="showMessage('Are you Sure You want to Delete ??')" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
+                <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
             </tr>
           {% endfor %}
         </tbody></table>
@@ -59,9 +59,6 @@
 {% endblock content %}
 
 {% block javascript %}
-  function showMessage(msg){
-      alert(msg)
-      consl
-  }
+
 {% endblock %}
     
