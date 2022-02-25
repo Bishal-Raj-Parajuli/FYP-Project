@@ -42,4 +42,15 @@ class PurchaseDetails(TimeStamp):
     class Meta:
         verbose_name_plural = 'Purchase Details'
 
+['item_name','stock_quantity','receive_quantity','issue_quantity','issue_to','reorder_level','created_at']
+class Stock(TimeStamp):
+    item_name = models.OneToOneField(PurchaseItems, on_delete=models.PROTECT)
+    stock_quantity = models.IntegerField(default='0', blank=True, null=True)
+    receive_quantity = models.IntegerField(default='0', blank=True, null=True)
+    issue_quantity = models.IntegerField(default='0', blank=True, null=True)
+    issue_to = models.CharField(max_length=50, blank=True, null=True)
+    reorder_level = models.IntegerField(default='0', blank=True, null=True)
+
+    def __str__(self):
+	    return str(self.item_name)
 

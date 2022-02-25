@@ -1,14 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views import View
-from .models import Vendor, PurchaseMaster, PurchaseDetails
+from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock
 from SettingsApp.models import PurchaseItems, Unit
 from .forms import PurchaseMasterForm
 # Create your views here.
 
 
-def ListPurchase(request):
+def ListPurchaseView(request):
     if request.method == 'GET':
         objects = PurchaseMaster.objects.all()
         context = {
@@ -16,7 +17,7 @@ def ListPurchase(request):
         }
         return render(request, 'Purchase/List-purchase.html', context)
 
-class AddPurchase(View):
+class AddPurchaseView(View):
     def get(self, request, *args, **kwargs):
         vendors = Vendor.objects.all()
         purchaseItems = PurchaseItems.objects.filter(is_active=True)
@@ -51,9 +52,10 @@ class AddPurchase(View):
             purchase_detail = PurchaseDetails(purchase_main=purchase_master, item=purchase_item, qty=qty[i], unit=unit, rate=rate[i], total=total[i])
             purchase_detail.save()
             i=i+1
+        messages.success(request, 'Successfully Added !!!')
         return HttpResponseRedirect(reverse('list-purchase'))
 
-def ViewPurchase(request, pk):
+def ViewPurchaseView(request, pk):
     if request.method == 'GET':
         purchaseObjects = PurchaseDetails.objects.filter(purchase_main=pk)
         purchaseMasterObjects = PurchaseMaster.objects.get(pk=pk)
@@ -63,13 +65,18 @@ def ViewPurchase(request, pk):
         }
         return render(request, 'Purchase/view-purchase.html', context)
 
-def DeletePurchase(request, pk):
+def DeletePurchaseView(request, pk):
     if request.method == 'GET':
         PurchaseMasterobject = PurchaseMaster.objects.get(pk=pk)
         PurchaseDetailobject = PurchaseDetails.objects.filter(purchase_main = pk)
         PurchaseMasterobject.delete()
         PurchaseDetailobject.delete()
-        context = {
-            'message': 'Successfully Deleted !!!'
-        }
+        messages.success(request, 'Successfully Deleted')
         return HttpResponseRedirect(reverse('list-purchase'))
+
+def StockView(request):
+    objects = Stock.objects.all()
+    context = {
+        'objects':objects
+    }
+    return render(request, 'Purchase/view-stock.html', context)

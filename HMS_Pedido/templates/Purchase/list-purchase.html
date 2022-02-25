@@ -10,10 +10,9 @@
 
 
 {% block content %}
-{% if message %}
-<div class="alert alert-primary">
-    {{ message}}
-</div>
+{% if messages %}
+    {% for message in messages %}
+    {% endfor %}
 {% endif %}
 
 <div class="card">

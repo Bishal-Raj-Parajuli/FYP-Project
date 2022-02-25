@@ -1,10 +1,11 @@
 from unicodedata import name
 from django.urls import path
-from .views import ListPurchase, AddPurchase, ViewPurchase, DeletePurchase
+from .views import AddPurchaseView, DeletePurchaseView, ListPurchaseView,StockView, ViewPurchaseView
 
 urlpatterns = [
-    path('list-purchase', ListPurchase, name='list-purchase'),
-    path('add-purchase', AddPurchase.as_view(), name='add-purchase'),
-    path('view-purchase/<int:pk>', ViewPurchase, name='view-purchase' ),
-    path('delete-puechase/<int:pk>', DeletePurchase, name='delete-purchase')
+    path('list-purchase', ListPurchaseView, name='list-purchase'),
+    path('add-purchase', AddPurchaseView.as_view(), name='add-purchase'),
+    path('view-purchase/<int:pk>', ViewPurchaseView, name='view-purchase' ),
+    path('delete-purchase/<int:pk>', DeletePurchaseView, name='delete-purchase'),
+    path('view-stock', StockView, name='view-stock'),
 ]
