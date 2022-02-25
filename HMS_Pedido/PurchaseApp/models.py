@@ -42,14 +42,38 @@ class PurchaseDetails(TimeStamp):
     class Meta:
         verbose_name_plural = 'Purchase Details'
 
-['item_name','stock_quantity','receive_quantity','issue_quantity','issue_to','reorder_level','created_at']
+    def save(self, *args, **kwargs):
+        # Stock Ledger
+        stock = Stock.objects.filter(item_name=self.item).order_by('-id').first()
+        if stock:
+            qty = float(self.qty)
+            totalBal = stock.stock_quantity+qty
+        else:
+            totalBal = self.qty
+        super(PurchaseDetails, self).save(*args, **kwargs)
+        Stock.objects.create(
+            item_name = self.item,
+            purchase = self,
+            issue =  None,
+            receive_quantity = self.qty,
+            issue_quantity = None,
+            stock_quantity = totalBal,
+        )
+
+class IssueDetails(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    item = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
+    issue_qty = models.FloatField()
+
+    def __str__(self) -> str:
+        return str(self.item)
 class Stock(TimeStamp):
-    item_name = models.OneToOneField(PurchaseItems, on_delete=models.PROTECT)
-    stock_quantity = models.IntegerField(default='0', blank=True, null=True)
-    receive_quantity = models.IntegerField(default='0', blank=True, null=True)
-    issue_quantity = models.IntegerField(default='0', blank=True, null=True)
-    issue_to = models.CharField(max_length=50, blank=True, null=True)
-    reorder_level = models.IntegerField(default='0', blank=True, null=True)
+    item_name = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
+    purchase = models.ForeignKey(PurchaseDetails, on_delete=models.PROTECT, default=0, null=True)
+    issue = models.ForeignKey(IssueDetails, on_delete=models.PROTECT, default=0, null=True)
+    receive_quantity = models.FloatField(default='0', blank=True, null=True)
+    issue_quantity = models.FloatField(default='0', blank=True, null=True)
+    stock_quantity = models.FloatField()
 
     def __str__(self):
 	    return str(self.item_name)

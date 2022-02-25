@@ -29,16 +29,20 @@
         <table class="table table-striped">
           <tbody><tr>
             <th>S.N</th>
-            <th>Category Name</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Name</th>
+            <th>Purchase</th>
+            <th>Issue</th>
+            <th>Balance</th>
           </tr>
+          {% for object in objects %}
           <tr>
-            <td>1.</td>
-            <td>Category</td>
-            <td><div class="badge badge-secondary">Active</div></td>
-            <td><a href="#" class="btn btn-primary">Edit</a><a href="#" class="btn btn-primary" style="margin-left: 5px;">Delete</a></td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ object.item_name }}</td>
+            <td>{{ object.receive_quantity }}</td>
+            <td>{{ object.issue_quantity }}</td>
+            <td>{{ object.stock_quantity }}</td>
           </tr>
+          {% endfor %}
         </tbody></table>
       </div>
     </div>
