@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -9,13 +10,23 @@ from django.views import View
 from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock, Vendor, IssueMaster, IssueDetails
 from SettingsApp.models import PurchaseItems, Unit
 # Create your views here.
-class ListVendorView(ListView):
+class ListVendorView(LoginRequiredMixin ,ListView):
     model = Vendor
     template_name = "Purchase/list-vendor.html"
     paginate_by = 10
 
+class CreateVendorView(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+    model = Vendor
+    success_message = 'Vendor Created Sucessfully !!!'
+    fields = '__all__'
+    template_name = "Purchase/add-update-vendor.html"
 
-class ListPurchaseView(ListView):
+class UpdateVendorView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Vendor
+    success_message = 'Vendor Updated Successfully !!!'
+    fields = '__all__'
+    template_name = 'Purchase/add-update-vendor.html'
+class ListPurchaseView(LoginRequiredMixin ,ListView):
     model = PurchaseMaster
     template_name = "Purchase/list-purchase.html"
     paginate_by = 10

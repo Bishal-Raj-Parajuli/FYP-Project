@@ -12,9 +12,13 @@
     
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    {% endfor %}
+{% endif %}
     <div class="card">
         <div class="card-header justify-content-between">
-            <div class="m-2"><a href="#" class="btn btn-warning">+Add</a></div>
+            <div class="m-2"><a href="{% url 'create-vendor'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
             <form method="get">
             <div class="input-group w-auto">
                     <input type="text" class="form-control " style="border-radius: 5px 0px 0px 5px;" placeholder="Search" aria-label="" name="filter" value="{{filter}}">
@@ -34,22 +38,18 @@
             <tbody><tr>
                 <th>S.N</th>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Address</th>
+                <th>Number</th>
                 <th>Action</th>
             </tr>
             
-            {% for category in menucategory_list %}
+            {% for object in vendor_list %}
             <tr>
-                <td>{{category.id}}</td>
-                <td>{{category.category_name}}</td>
-                <td>
-                    {% if category.is_active %}
-                        <div class="badge" style="background-color: rgb(0, 167, 64); color: white;">Active</div>
-                    {% elif not category.is_active %}
-                        <div class="badge" style="background-color: rgb(173, 47, 15); color: white;">In-Active</div>
-                    {% endif %} 
-                </td>
-                <td><a href="#" class="btn btn-primary">Edit</a></td>
+                <td>{{forloop.counter}}</td>
+                <td>{{object.name}}</td>
+                <td>{{object.address}}</td>
+                <td>{{object.phone}}</td>
+                <td><a href="{% url 'update-vendor' object.id  %}" class="btn btn-primary">Update</a><a class="btn btn-danger mx-2" href="#"><i class="fas fa-trash"></i></a></td>
             </tr>
             {% endfor %}
             
@@ -59,7 +59,6 @@
         <div class="card-footer text-right">
         <nav class="d-inline-block">
             <ul class="pagination mb-0">
-            
             {% if page_obj.has_previous %}
             <li class="page-item">
                 <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
@@ -70,15 +69,12 @@
             </li>
             {% endif %}
             
-            
             {% for i in paginator.page_range %}
                 <li class="page-item">
                     <a class="page-link" href="#">{{i}} <span class="sr-only">(current)</span></a>
                 </li>
             {% endfor %}
                 
-            
-         
             {% if page_obj.has_next %}
             <li class="page-item">
                 <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>

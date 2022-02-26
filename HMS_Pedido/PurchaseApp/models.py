@@ -1,5 +1,7 @@
 from django.db import models
 from SettingsApp.models import PurchaseItems, TimeStamp, Unit
+from django.urls import reverse
+
 
 # Create your models here.
 class Vendor(TimeStamp):
@@ -10,6 +12,9 @@ class Vendor(TimeStamp):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('list-vendor')
 
     class Meta:
         verbose_name_plural = 'Vendor Details'
@@ -60,7 +65,7 @@ class PurchaseDetails(TimeStamp):
             stock_quantity = totalBal,
         )
 
-['issue_no','issue_to']
+
 class IssueMaster(TimeStamp):
     id = models.BigAutoField(primary_key=True)
     issue_no = models.CharField(max_length=100, unique=True, blank=False, null=False)
