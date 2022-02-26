@@ -60,13 +60,41 @@ class PurchaseDetails(TimeStamp):
             stock_quantity = totalBal,
         )
 
+['issue_no','issue_to']
+class IssueMaster(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    issue_no = models.CharField(max_length=100, unique=True, blank=False, null=False)
+    issue_to = models.CharField(max_length=100 ,null=False, blank=False)
+
+    def __str__(self) -> str:
+        return str(self.issue_no)
+
 class IssueDetails(TimeStamp):
     id = models.BigAutoField(primary_key=True)
+    issue_main = models.ForeignKey(IssueMaster, on_delete=models.CASCADE)
     item = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
     issue_qty = models.FloatField()
 
     def __str__(self) -> str:
         return str(self.item)
+
+    def save(self, *args, **kwargs):
+        # Stock Ledger
+        stock = Stock.objects.filter(item_name=self.item).order_by('-id').first()
+        if stock:
+            qty = float(self.issue_qty)
+            totalBal = stock.stock_quantity-qty
+        else:
+            pass
+        super(IssueDetails, self).save(*args, **kwargs)
+        Stock.objects.create(
+            item_name = self.item,
+            purchase = None,
+            issue =  self,
+            receive_quantity = None,
+            issue_quantity = self.issue_qty,
+            stock_quantity = totalBal,
+        )
 class Stock(TimeStamp):
     item_name = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
     purchase = models.ForeignKey(PurchaseDetails, on_delete=models.PROTECT, default=0, null=True)

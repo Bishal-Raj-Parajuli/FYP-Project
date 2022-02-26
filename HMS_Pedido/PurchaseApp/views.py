@@ -1,13 +1,15 @@
+from urllib import request
 from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views import View
-from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock
+from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock, Vendor, IssueMaster, IssueDetails
 from SettingsApp.models import PurchaseItems, Unit
-from .forms import PurchaseMasterForm
 # Create your views here.
 
+def ListVendorView(request):
+    return render(request, 'Purchase/list-vendor.html')
 
 def ListPurchaseView(request):
     if request.method == 'GET':
@@ -15,8 +17,7 @@ def ListPurchaseView(request):
         context = {
             'objects': objects
         }
-        return render(request, 'Purchase/List-purchase.html', context)
-
+        return render(request, 'Purchase/list-purchase.html', context)
 class AddPurchaseView(View):
     def get(self, request, *args, **kwargs):
         vendors = Vendor.objects.all()
@@ -74,9 +75,16 @@ def DeletePurchaseView(request, pk):
         messages.success(request, 'Successfully Deleted')
         return HttpResponseRedirect(reverse('list-purchase'))
 
+def ListIssueView(request):
+
+    return render(request, 'Purchase/list-issue.html')
+
+
 def StockView(request):
     objects = Stock.objects.all()
     context = {
         'objects':objects
     }
     return render(request, 'Purchase/view-stock.html', context)
+
+
