@@ -1,5 +1,5 @@
 {% extends 'Main/base.html' %}
-{% with update_vendor = 'update-vendor' %}
+
 {% block title %}
    Add Vendor
 {% endblock title %}
@@ -13,9 +13,6 @@
 <div class="card">
     <div class="card-header">
         <div class="m-2"><a href="{% url 'list-vendor'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
-        {{request.path}}
-        <hr>
-        {{update_vendor}}
     </div>
     <div class="card-body">
         <form action="#" method="POST" class="needs-validation" novalidate>
@@ -23,9 +20,7 @@
             {% for field in form %}     
                         <div class="form-group">
                             <label>{{field.label}}</label>
-                            <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control is-invalid" {% if request.path == update_vendor %}
-                            value="{{ field.value}}"
-                            {% endif %} placeholder="Enter Value" style="border-color: rgb(175, 165, 211);">
+                            <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control is-invalid" placeholder="Enter {{field.name}}" style="border-color: rgb(175, 165, 211);">
                             {% if field.errors %}
                             <div class="invalid-feedback">
                                 This field is Required !!!
@@ -38,4 +33,4 @@
     </div>
 </div>
 {% endblock content %}
-{% endwith %}
+

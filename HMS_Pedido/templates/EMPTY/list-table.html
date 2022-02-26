@@ -42,9 +42,14 @@
               <td>{{ forloop.counter }}</td>
               <td>{{ object.invoice_no }}</td>
               <td>{{ object.vendor }}</td>
-              <td>Rs. {{ object.total_bill }}</td>
-              <td>{{ object.created_at }}</td>
-              <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
+              <td>
+                {% if category.is_active %}
+                    <div class="badge" style="background-color: rgb(0, 167, 64); color: white;">Active</div>
+                {% elif not category.is_active %}
+                    <div class="badge" style="background-color: rgb(173, 47, 15); color: white;">In-Active</div>
+                {% endif %} 
+            </td>
+              <td><a href="#" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" href="#"><i class="fas fa-trash"></i></a></td>
           </tr>
         {% endfor %}
       </tbody></table>

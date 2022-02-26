@@ -56,6 +56,10 @@ class PurchaseItemsCategory(TimeStamp):
 
     def __str__(self):
         return self.category_name
+
+    def get_absolute_url(self):
+        return reverse('list-purchase-category')
+    
     class Meta:
         verbose_name_plural = 'Purchase Category'
 class PurchaseItems(TimeStamp):
@@ -68,6 +72,9 @@ class PurchaseItems(TimeStamp):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('list-purchase-item')
     class Meta:
         verbose_name_plural = 'Purchase Item'
 class RoomCategory(TimeStamp):

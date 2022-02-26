@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views import View
 from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock, Vendor, IssueMaster, IssueDetails
@@ -19,13 +19,20 @@ class CreateVendorView(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
     model = Vendor
     success_message = 'Vendor Created Sucessfully !!!'
     fields = '__all__'
-    template_name = "Purchase/add-update-vendor.html"
+    template_name = "Purchase/add-vendor.html"
 
 class UpdateVendorView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Vendor
     success_message = 'Vendor Updated Successfully !!!'
     fields = '__all__'
-    template_name = 'Purchase/add-update-vendor.html'
+    template_name = 'Purchase/update-vendor.html'
+
+def DeleteVendorView(request, pk):
+    object = Vendor.objects.get(pk=pk)
+    name = object.name
+    object.delete()
+    messages.success(request, f'Vendor {name} Deleted Successfully')
+    return HttpResponseRedirect(reverse('list-vendor'))
 class ListPurchaseView(LoginRequiredMixin ,ListView):
     model = PurchaseMaster
     template_name = "Purchase/list-purchase.html"

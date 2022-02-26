@@ -1,0 +1,56 @@
+{% extends 'Main/base.html' %}
+
+{% block title %}
+   Add Purchase Item
+{% endblock title %}
+
+{% block page_title %}
+ Settings | Add Purchase Item
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="m-2"><a href="{% url 'list-purchase-item'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
+    </div>
+    <div class="card-body">
+        <form action="#" method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}      
+            {% for field in form %}     
+                <div class="form-group">
+                    {% if field.name == 'is_active' %}
+                    <div class="form-group row">
+                        <div class="col-sm-3">Is Active :-</div>
+                        <div class="col-sm-9">
+                          <div class="form-check">
+                            {{ field }}
+                          </div>
+                        </div>
+                      </div>
+                    {% else %}
+                    <label>{{field.label}}</label>
+                    {% if field.field.widget.input_type != "select" %}
+                    <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control is-invalid" placeholder="Enter {{field.name}}" style="border-color: rgb(175, 165, 211);">
+                    {% endif %}
+                    {% if field.field.widget.input_type == "select" %}
+                    <select name="{{field.name}}" id="{{field.name}}" class="form-control is-invalid" style="border-color: rgb(175, 165, 211);">
+                        {% for id,value in field.field.choices %}
+                            <option value="{{id}}">{{value}}</option>
+                        {% endfor %}  
+                    </select>
+                    {% endif %}
+                    {% if field.errors %}
+                    <div class="invalid-feedback">
+                        This field is Required !!!
+                    </div>
+                    {% endif %}
+                    {% endif %} 
+                </div>
+            {% endfor %} 
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>     
+    </div>
+</div>
+{% endblock content %}
+
