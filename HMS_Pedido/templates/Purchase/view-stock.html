@@ -11,18 +11,22 @@
 
 {% block content %}
 <div class="card">
-    <div class="card-header justify-content-end">
-      <div class="card-header-form">
+    <div class="card-header">
         <form method="POST">
             {% csrf_token %}
-          <div class="input-group">
-            <input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" placeholder="Search" name="list-search">
-            <div class="input-group-btn">
-              <button class="btn btn-primary" style="border-radius: 0px 5px 5px 0px; margin: 0;" type="submit" ><i class="fas fa-search"></i></button>
-            </div>
+          <label >Choose Item</label>
+          <div class="row">
+            <select class="form-control" name="purchase-item" style="width: 200px; border-radius: 5%;" required>
+              {% for item in purchase_items %}
+                  <option value="{{ item.id }}"> {{ item.name }}</option>
+              {% endfor %}
+          </select>
+          <button class="btn btn-primary" style="border-radius: 0;" type="submit">Search</button>
+          </div>
+          <div class="invalid-feedback">
+              This field is Necessary !!!
           </div>
         </form>
-      </div>
     </div>
     <div class="card-body p-0">
       <div class="table-responsive">
@@ -33,6 +37,7 @@
             <th>Purchase</th>
             <th>Issue</th>
             <th>Balance</th>
+            <th>Date</th>
           </tr>
           {% for object in objects %}
           <tr>
@@ -41,6 +46,7 @@
             <td>{{ object.receive_quantity }}</td>
             <td>{{ object.issue_quantity }}</td>
             <td>{{ object.stock_quantity }}</td>
+            <td>{{ object.created_at }}</td>
           </tr>
           {% endfor %}
         </tbody></table>

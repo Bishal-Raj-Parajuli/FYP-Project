@@ -16,7 +16,7 @@
 {% endif %}
 <div class="card">
   <div class="card-header justify-content-between">
-      <div class="m-2"><a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
+      <div class="m-2"><a href="{% url 'add-purchase'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
       <form method="get">
       <div class="input-group w-auto">
               <input type="text" class="form-control " style="border-radius: 5px 0px 0px 5px;" placeholder="Search" aria-label="" name="filter" value="{{filter}}">

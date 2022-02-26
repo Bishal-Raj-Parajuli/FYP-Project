@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.urls import path
-from .views import AddPurchaseView, DeletePurchaseView, ListPurchaseView,StockView, ViewPurchaseView, ListIssueView, ListVendorView, CreateVendorView, UpdateVendorView, DeleteVendorView
+from .views import AddPurchaseView, DeletePurchaseView, ListPurchaseView,StockView, ViewPurchaseView, ListIssueView, ListVendorView, CreateVendorView, UpdateVendorView, DeleteVendorView, AddIssueView, DeleteIssueView
 
 urlpatterns = [
     #Vendor Urls
@@ -16,7 +16,9 @@ urlpatterns = [
     path('delete-purchase/<int:pk>', DeletePurchaseView, name='delete-purchase'),
 
     #Issue Urls
-    path('list-issue', ListIssueView, name='list-issue'),
-    
+    path('list-issue', ListIssueView.as_view() , name='list-issue'),
+    path('add-issue', AddIssueView.as_view(), name='add-issue'),
+    path('delete-issue/<int:pk>', DeleteIssueView, name='delete-issue'),
+
     path('view-stock', StockView, name='view-stock'),
 ]

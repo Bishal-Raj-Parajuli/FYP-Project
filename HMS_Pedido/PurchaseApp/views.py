@@ -94,16 +94,66 @@ def DeletePurchaseView(request, pk):
         messages.success(request, 'Successfully Deleted')
         return HttpResponseRedirect(reverse('list-purchase'))
 
-def ListIssueView(request):
+class ListIssueView(LoginRequiredMixin ,ListView):
+    model = IssueMaster
+    template_name = "Purchase/list-issue.html"
+    paginate_by = 10
 
-    return render(request, 'Purchase/list-issue.html')
+class AddIssueView(View):
+    def get(self, request, *args, **kwargs):
+        purchaseItems = PurchaseItems.objects.filter(is_active=True)
+        units = Unit.objects.filter(is_active=True)
+        context ={
+            'purchaseItems': purchaseItems,
+            'units': units,
+        }
+        return render(request, 'Purchase/add-issue.html', context)
 
+    def post(self, request, *args, **kwargs):
+        ## Purchase Master ##
+        issue_no = request.POST.get('issue-no')
+        issue_to = request.POST.get('issue-to')
+        issue_master = IssueMaster(issue_no=issue_no, issue_to=issue_to)
+        issue_master.save()
+
+        ## Purchase Details ##
+        issue_item_id = request.POST.getlist('issue-item[]')
+        qty = request.POST.getlist('qty[]')
+        
+        i=0
+        for item in issue_item_id:
+            issue_item = PurchaseItems.objects.get(id=item)
+            issue_detail = IssueDetails(issue_main=issue_master, item=issue_item, issue_qty=qty[i])
+            issue_detail.save()
+            i=i+1
+        messages.success(request, 'Successfully Added !!!')
+        return HttpResponseRedirect(reverse('list-issue'))
+
+def DeleteIssueView(request, pk):
+    if request.method == 'GET':
+        IssueMasterobject = IssueMaster.objects.get(pk=pk)
+        IssueDetailsobject = IssueDetails.objects.filter(issue_main = pk)
+        IssueMasterobject.delete()
+        IssueDetailsobject.delete()
+        messages.success(request, 'Successfully Deleted')
+        return HttpResponseRedirect(reverse('list-issue'))
 
 def StockView(request):
-    objects = Stock.objects.all()
-    context = {
-        'objects':objects
-    }
-    return render(request, 'Purchase/view-stock.html', context)
+    if request.method == 'GET':
+        purchase_items = PurchaseItems.objects.filter(is_active=True)
+        context = {
+            'purchase_items': purchase_items
+        }
+        return render(request, 'Purchase/view-stock.html', context)
+    if request.method == 'POST':
+        purchase_items = PurchaseItems.objects.filter(is_active=True)
+        search_item = request.POST.get('purchase-item')
+        purchase_item = PurchaseItems.objects.get(pk=search_item)
+        objects = Stock.objects.filter(item_name=purchase_item)
+        context ={
+            'objects':objects,
+            'purchase_items': purchase_items
+        }
+        return render(request, 'Purchase/view-stock.html', context)
 
 
