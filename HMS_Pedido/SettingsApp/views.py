@@ -12,6 +12,7 @@ from SettingsApp.models import PurchaseItemsCategory, PurchaseItems
 class ListPurchaseCategory(LoginRequiredMixin, ListView):
     model = PurchaseItemsCategory
     template_name = 'Settings/Category/list-purchase-category.html'
+    paginate_by = 10
 
 class AddPurchaseCategory(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
     model = PurchaseItemsCategory
@@ -35,6 +36,7 @@ def DeletePurchaseCategory(request, pk):
 class ListPurchaseItem(LoginRequiredMixin, ListView):
     model = PurchaseItems
     template_name = 'Settings/Items/list-purchase-item.html'
+    paginate_by = 10
 
 class AddPurchaseItem(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
     model = PurchaseItems

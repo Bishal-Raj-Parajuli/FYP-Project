@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
@@ -123,20 +124,23 @@ class AddIssueView(View):
         i=0
         for item in issue_item_id:
             issue_item = PurchaseItems.objects.get(id=item)
-            issue_detail = IssueDetails(issue_main=issue_master, item=issue_item, issue_qty=qty[i])
+            issue_detail = IssueDetails(
+                issue_main=issue_master,
+                item=issue_item,
+                issue_qty=qty[i])
             issue_detail.save()
             i=i+1
         messages.success(request, 'Successfully Added !!!')
         return HttpResponseRedirect(reverse('list-issue'))
 
+@require_http_methods(["GET"])
 def DeleteIssueView(request, pk):
-    if request.method == 'GET':
-        IssueMasterobject = IssueMaster.objects.get(pk=pk)
-        IssueDetailsobject = IssueDetails.objects.filter(issue_main = pk)
-        IssueMasterobject.delete()
-        IssueDetailsobject.delete()
-        messages.success(request, 'Successfully Deleted')
-        return HttpResponseRedirect(reverse('list-issue'))
+    obj1 = IssueMaster.objects.get(pk=pk)
+    obj2 = IssueDetails.objects.filter(issue_main = pk)
+    obj1.delete()
+    obj2.delete()
+    messages.success(request, 'Successfully Deleted')
+    return HttpResponseRedirect(reverse('list-issue'))
 
 def StockView(request):
     if request.method == 'GET':
