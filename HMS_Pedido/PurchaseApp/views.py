@@ -1,5 +1,7 @@
-from urllib import request
 from django.shortcuts import render
+from django.views.generic import ListView, CreateView
+from django.views.generic.edit import UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -7,17 +9,16 @@ from django.views import View
 from .models import Vendor, PurchaseMaster, PurchaseDetails, Stock, Vendor, IssueMaster, IssueDetails
 from SettingsApp.models import PurchaseItems, Unit
 # Create your views here.
+class ListVendorView(ListView):
+    model = Vendor
+    template_name = "Purchase/list-vendor.html"
+    paginate_by = 10
 
-def ListVendorView(request):
-    return render(request, 'Purchase/list-vendor.html')
 
-def ListPurchaseView(request):
-    if request.method == 'GET':
-        objects = PurchaseMaster.objects.all()
-        context = {
-            'objects': objects
-        }
-        return render(request, 'Purchase/list-purchase.html', context)
+class ListPurchaseView(ListView):
+    model = PurchaseMaster
+    template_name = "Purchase/list-purchase.html"
+    paginate_by = 10
 class AddPurchaseView(View):
     def get(self, request, *args, **kwargs):
         vendors = Vendor.objects.all()
