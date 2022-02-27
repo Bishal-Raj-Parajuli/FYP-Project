@@ -1,22 +1,18 @@
 {% extends 'Main/base.html' %}
 
 {% block title %}
-    Purchase Item
+    Menu Category
 {% endblock title %}
 
 {% block page_title %}
- Settings | Purchase Item
+ Settings | Menu Category
 {% endblock page_title %}
 
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-    {% endfor %}
-{% endif %}
 <div class="card">
   <div class="card-header justify-content-between">
-      <div class="m-2"><a href="{% url 'add-purchase-item'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
+      <div class="m-2"><a href="{% url 'add-menu-category'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
       <form method="get">
       <div class="input-group w-auto">
               <input type="text" class="form-control " style="border-radius: 5px 0px 0px 5px;" placeholder="Search" aria-label="" name="filter" value="{{filter}}">
@@ -25,9 +21,9 @@
               </div>
       </div>
       <b>Sort By:-</b>
-          <a href="{% url 'list-purchase-item' %}?filter={{filter}}&orderby=category" class="mx-2">Category</a> |
-          <a href="{% url 'list-purchase-item' %}?filter={{filter}}&orderby=name" class="mx-2">Name</a> |
-          <a href="{% url 'list-purchase-item' %}?filter={{filter}}&orderby=is_active"class="mx-2">Status</a>
+          <a href="#" class="mx-2">ID</a> |
+          <a href="#" class="mx-2">Name</a> |
+          <a href="#"class="mx-2">Status</a>
   </form>
   </div>
   <div class="card-body p-0">
@@ -35,16 +31,14 @@
       <table class="table table-striped">
         <tbody><tr>
           <th>S.N</th>
-          <th>Category</th>
-          <th>Item Name</th>
+          <th>Category Name</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>Actions</th>s
         </tr>
-        {% for object in purchaseitems_list %}
+        {% for object in menucategory_list %}
           <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ object.category }}</td>
-              <td>{{ object.name }}</td>
+              <td>{{ object.category_name }}</td>
               <td>
                 {% if object.is_active %}
                     <div class="badge" style="background-color: rgb(0, 167, 64); color: white;">Active</div>
@@ -52,7 +46,7 @@
                     <div class="badge" style="background-color: rgb(173, 47, 15); color: white;">In-Active</div>
                 {% endif %} 
             </td>
-            <td><a href="{% url 'update-purchase-item' object.id  %}" class="btn btn-primary">Edit</a><a class="btn btn-danger mx-2" href="{% url 'delete-purchase-item' object.id  %}"><i class="fas fa-trash"></i></a></td>
+              <td><a href="{% url 'update-menu-category' object.id  %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" href="{% url 'delete-menu-category' object.id  %}"><i class="fas fa-trash"></i></a></td>
           </tr>
         {% endfor %}
       </tbody></table>
