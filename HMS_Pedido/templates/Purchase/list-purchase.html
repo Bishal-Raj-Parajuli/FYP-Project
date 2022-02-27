@@ -48,7 +48,7 @@
               <td>{{ object.vendor }}</td>
               <td>Rs. {{ object.total_bill }}</td>
               <td>{{ object.created_at }}</td>
-              <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
+              <td><a href="{% url 'view-purchase' object.id %}" class="btn btn-primary">View</a><a class="btn btn-danger mx-2 disabled" href="{% url 'delete-purchase' object.id %}"><i class="fas fa-trash"></i></a></td>
           </tr>
         {% endfor %}
       </tbody></table>

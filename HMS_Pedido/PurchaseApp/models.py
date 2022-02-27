@@ -35,7 +35,7 @@ class PurchaseMaster(TimeStamp):
 class PurchaseDetails(TimeStamp):
     id = models.BigAutoField(primary_key=True)
     purchase_main = models.ForeignKey(PurchaseMaster, on_delete=models.CASCADE)
-    item = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
+    item = models.ForeignKey(PurchaseItems, on_delete=models.CASCADE)
     qty = models.FloatField()
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT)
     rate = models.FloatField()
@@ -77,7 +77,7 @@ class IssueMaster(TimeStamp):
 class IssueDetails(TimeStamp):
     id = models.BigAutoField(primary_key=True)
     issue_main = models.ForeignKey(IssueMaster, on_delete=models.CASCADE)
-    item = models.ForeignKey(PurchaseItems, on_delete=models.PROTECT)
+    item = models.ForeignKey(PurchaseItems, blank=False, null=True , on_delete=models.SET_NULL)
     issue_qty = models.FloatField()
 
     def __str__(self) -> str:
