@@ -17,6 +17,19 @@
             <li><a class="nav-link" href="{% url 'dashboard-view'  %}">General Dashboard</a></li>
           </ul>
         </li>
+
+        <li class="menu-header">Front Desk</li>
+        <!-- Add Purchase -->
+            <li class="dropdown"><a class="nav-link has-dropdown" href="#"><i class="fas fa-user-tag"></i><span>Vendor</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="#">Vendor Details</a></li>
+                <li><a class="nav-link" href="#">Vendor Report</a></li>
+              </ul>  
+            </li>
+            <li><a class="nav-link" href="#"><i class="fas fa-truck-loading"></i><span>Purchase</span></a></li>
+            <li><a class="nav-link" href="#"><i class="fas fa-dolly-flatbed"></i><span>Issue</span></a></li>
+            <li><a class="nav-link" href="{% url 'view-stock'  %}"><i class="fas fa-book"></i><span>Item Legder</span></a></li>
+
         <!-- Purchase Section -->
         <li class="menu-header">Inventory</li>
         <!-- Add Purchase -->
@@ -41,6 +54,7 @@
             <li><a class="nav-link" href="{% url 'list-menu-category'  %}">Menu Category</a></li>
             <li><a class="nav-link" href="{% url 'list-purchase-category'  %}">Purchase Category</a></li>
             <li><a class="nav-link" href="#">Room Category</a></li>
+            <li><a class="nav-link" href="#">Units</a></li>
           </ul>  
         </li>
         <!-- Items -->
@@ -49,6 +63,8 @@
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{% url 'list-menu-item'  %}">Menu Items</a></li>
             <li><a class="nav-link" href="{% url 'list-purchase-item'  %}">Purchase Items</a></li>
+            <li><a class="nav-link" href="#">Rooms</a></li>
+            
           </ul>  
         </li>
         <!-- Settings Section -->
