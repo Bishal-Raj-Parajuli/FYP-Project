@@ -26,7 +26,7 @@
                 <li><a class="nav-link" href="#">Customer Report</a></li>
               </ul>  
             </li>
-            <li><a class="nav-link" href="#"><i class="fas fa-utensils"></i><span>Dining</span></a></li>
+            <li><a class="nav-link" href="{% url 'list-dining'  %}"><i class="fas fa-utensils"></i><span>Dining</span></a></li>
             <li><a class="nav-link" href="#"><i class="fas fa-file-invoice-dollar"></i><span>Generate Bill</span></a></li>
             <li><a class="nav-link" href="#"><i class="fas fa-receipt"></i><span>Sales Report</span></a></li>
 
@@ -54,7 +54,7 @@
             <li><a class="nav-link" href="{% url 'list-menu-category'  %}">Menu Category</a></li>
             <li><a class="nav-link" href="{% url 'list-purchase-category'  %}">Purchase Category</a></li>
             <li><a class="nav-link" href="{% url 'list-room-category'  %}">Room Category</a></li>
-            <li><a class="nav-link" href="#">Units</a></li>
+            <li><a class="nav-link" href="{% url 'list-unit'  %}">Units</a></li>
           </ul>  
         </li>
         <!-- Items -->
@@ -63,7 +63,7 @@
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{% url 'list-menu-item'  %}">Menu Items</a></li>
             <li><a class="nav-link" href="{% url 'list-purchase-item'  %}">Purchase Items</a></li>
-            <li><a class="nav-link" href="#">Rooms</a></li>
+            <li><a class="nav-link" href="{% url 'list-room-details'  %}">Rooms</a></li>
             
           </ul>  
         </li>

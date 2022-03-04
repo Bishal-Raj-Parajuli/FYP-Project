@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('UserAuth.urls')),
     path('settings/', include('SettingsApp.urls')),
     path('purchase/', include('PurchaseApp.urls')),
+    path('sales/', include('SalesApp.urls')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
 

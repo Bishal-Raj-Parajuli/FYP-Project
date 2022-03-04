@@ -178,8 +178,58 @@ def DeleteRoomCategory(request, pk):
 ### Room Category Views ###
 
 ### Room Details Views ###
-##TODO
+class ListRoomDetails(LoginRequiredMixin, ListView):
+    model = RoomDetails
+    template_name = 'Settings/Items/list-room-details.html'
+    paginate_by = 10
+
+class AddRoomDetails(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+    model = RoomDetails
+    success_message = 'New Category Created Sucessfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Items/add-room-details.html'
+
+class UpdateRoomDetails(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = RoomDetails
+    success_message = 'Category Updated Successfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Items/update-room-details.html'
+
+def DeleteRoomDetails(request, pk):
+    object = RoomDetails.objects.get(pk=pk)
+    name = object.room_name
+    object.delete()
+    messages.success(request, f'Room Category {name} Deleted Successfully')
+    return HttpResponseRedirect(reverse('list-room-details'))
 ### Room Details Views ###
+
+
+### Unit ###
+class ListUnit(LoginRequiredMixin, ListView):
+    model = Unit
+    template_name = 'Settings/Category/list-unit.html'
+    paginate_by = 10
+
+class AddUnit(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+    model = Unit
+    success_message = 'New Category Created Sucessfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Category/add-unit.html'
+
+class UpdateUnit(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Unit
+    success_message = 'Category Updated Successfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Category/update-unit.html'
+
+def DeleteUnit(request, pk):
+    object = Unit.objects.get(pk=pk)
+    name = object.unit_name
+    object.delete()
+    messages.success(request, f'Room Category {name} Deleted Successfully')
+    return HttpResponseRedirect(reverse('list-unit'))
+### Unit ###
+
 
 
 

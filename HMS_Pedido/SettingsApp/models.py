@@ -20,6 +20,8 @@ class Unit(TimeStamp):
     def __str__(self):
         return self.unit_code
 
+    def get_absolute_url(self):
+        return reverse('list-unit')
     class Meta:
         verbose_name_plural = 'Unit'
 
@@ -98,9 +100,9 @@ class RoomCategory(TimeStamp):
         verbose_name_plural = 'Room Category'
 class RoomDetails(TimeStamp):
     ROOM_TYPE = (
-        (1,'Twin Bed'),
-        (2,'Couple Bed'),
-        (3,'King Bed'),
+        ('Twin Bed','Twin Bed'),
+        ('Twin Bed','Couple Bed'),
+        ('Twin Bed','King Bed'),
     )
     id = models.BigAutoField(primary_key=True)
     category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE)
@@ -112,5 +114,9 @@ class RoomDetails(TimeStamp):
 
     def __str__(self):
         return self.room_name
+
+    def get_absolute_url(self):
+        return reverse('list-room-details')
+
     class Meta:
         verbose_name_plural = 'Rooms'

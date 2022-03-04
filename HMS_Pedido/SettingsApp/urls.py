@@ -21,6 +21,11 @@ urlpatterns = [
     path('update-room-category/<int:pk>', views.UpdateRoomCategory.as_view(), name='update-room-category'),
     path('delete-room-category/<int:pk>', views.DeleteRoomCategory, name='delete-room-category'),
 
+    #Unit URLS
+    path('list-unit', views.ListUnit.as_view(), name='list-unit'),
+    path('add-unit', views.AddUnit.as_view(), name='add-unit'),
+    path('update-unit/<int:pk>', views.UpdateUnit.as_view(), name='update-unit'),
+    path('delete-unit/<int:pk>', views.DeleteUnit, name='delete-unit'),
     
     #Purchase Items URLS
     path('list-purchase-item', views.ListPurchaseItem.as_view(), name='list-purchase-item'),
@@ -33,4 +38,10 @@ urlpatterns = [
     path('add-menu-item', views.AddMenuItem.as_view(), name='add-menu-item'),
     path('update-menu-item/<int:pk>', views.UpdateMenuItem.as_view(), name='update-menu-item'),
     path('delete-menu-item/<int:pk>', views.DeleteMenuItem, name='delete-menu-item'),
+
+    #Room Details URLS
+    path('list-room-details', views.ListRoomDetails.as_view(), name='list-room-details'),
+    path('add-room-details', views.AddRoomDetails.as_view(), name='add-room-details'),
+    path('update-room-details/<int:pk>', views.UpdateRoomDetails.as_view(), name='update-room-details'),
+    path('delete-room-details/<int:pk>', views.DeleteRoomDetails, name='delete-room-details'),
 ]

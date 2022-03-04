@@ -1,0 +1,46 @@
+{% extends 'Main/base.html' %}
+ 
+{% block title %}
+   Update Unit
+{% endblock title %}
+
+{% block page_title %}
+ Inventory | Update Unit
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="m-2"><a href="{% url 'list-unit'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
+    </div>
+    <div class="card-body">
+        <form action="#" method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {% for field in form %}     
+                        <div class="form-group">
+                            {% if field.name == 'is_active' %}
+                            <div class="form-group row">
+                                <div class="col-sm-3">Is Active :-</div>
+                                <div class="col-sm-9">
+                                  <div class="form-check">
+                                    {{ field }}
+                                  </div>
+                                </div>
+                              </div>
+                            {% else %}
+                            <label>{{field.label}}</label>
+                            <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control is-invalid" value="{{ field.value }}" style="border-color: rgb(175, 165, 211);">
+                            {% if field.errors %}
+                            <div class="invalid-feedback">
+                                This field is Required !!!
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %} 
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
