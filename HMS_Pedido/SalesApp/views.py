@@ -5,13 +5,18 @@ from django.views.generic import ListView, DetailView
 from SettingsApp.models import RoomCategory, RoomDetails
 
 # Create your views here.
-class ListDining(ListView):
+class ListDiningView(ListView):
     model = RoomCategory
     template_name = 'Sales/list-dining.html'
 
-def ListDiningDetails(request, pk):
+def ListDiningDetailsView(request, pk):
     queryset = RoomDetails.objects.filter(category=pk)
     context = {
         'objects':queryset
     }
     return render(request, 'Sales/list-dining-details.html', context)
+
+class RoomBookingView(View):
+    def get(self, request, *args, **kwargs):
+        print(kwargs)
+        return render(request, 'Sales/book-room.html')

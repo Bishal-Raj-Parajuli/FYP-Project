@@ -4,7 +4,7 @@ from SettingsApp.models import MenuItems, RoomDetails, Unit, TimeStamp
 
 # Create your models here.
 class Customer(TimeStamp):
-    id = models.BooleanField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     contact = models.CharField(max_length=20, unique=True)
@@ -15,7 +15,6 @@ class Customer(TimeStamp):
     def __str__(self) -> str:
         return self.name
 
-['room', 'rate','days','customer','paid']
 class RoomBooking(TimeStamp):  
     id = models.BigAutoField(primary_key=True)
     room = models.ForeignKey(RoomDetails, on_delete=models.PROTECT)
