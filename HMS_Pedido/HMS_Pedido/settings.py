@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'UserAuth',
     'SettingsApp',
     'PurchaseApp',
+    'SalesApp',
 ]
 
 MIDDLEWARE = [

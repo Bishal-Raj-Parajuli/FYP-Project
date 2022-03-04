@@ -7,7 +7,7 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from SettingsApp.models import PurchaseItemsCategory, PurchaseItems, MenuCategory, MenuItems
+from SettingsApp.models import PurchaseItemsCategory, PurchaseItems, MenuCategory, MenuItems, RoomCategory, RoomDetails, Unit
 
 ### Purchase Category Views ###
 class ListPurchaseCategory(LoginRequiredMixin, ListView):
@@ -152,7 +152,29 @@ def DeleteMenuItem(request, pk):
 ### Menu Items Views ###
 
 ### Room Category Views ###
-##TODO
+class ListRoomCategory(LoginRequiredMixin, ListView):
+    model = RoomCategory
+    template_name = 'Settings/Category/list-room-category.html'
+    paginate_by = 10
+
+class AddRoomCategory(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+    model = RoomCategory
+    success_message = 'New Category Created Sucessfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Category/add-room-category.html'
+
+class UpdateRoomCategory(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = RoomCategory
+    success_message = 'Category Updated Successfully !!!'
+    fields = '__all__'
+    template_name = 'Settings/Category/update-room-category.html'
+
+def DeleteRoomCategory(request, pk):
+    object = RoomCategory.objects.get(pk=pk)
+    name = object.category_name
+    object.delete()
+    messages.success(request, f'Room Category {name} Deleted Successfully')
+    return HttpResponseRedirect(reverse('list-room-category'))
 ### Room Category Views ###
 
 ### Room Details Views ###

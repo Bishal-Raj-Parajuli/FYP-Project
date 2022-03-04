@@ -15,6 +15,13 @@ urlpatterns = [
     path('update-menu-category/<int:pk>', views.UpdateMenuCategory.as_view(), name='update-menu-category'),
     path('delete-menu-category/<int:pk>', views.DeleteMenuCategory, name='delete-menu-category'),
 
+    #Room Category URLS
+    path('list-room-category', views.ListRoomCategory.as_view(), name='list-room-category'),
+    path('add-room-category', views.AddRoomCategory.as_view(), name='add-room-category'),
+    path('update-room-category/<int:pk>', views.UpdateRoomCategory.as_view(), name='update-room-category'),
+    path('delete-room-category/<int:pk>', views.DeleteRoomCategory, name='delete-room-category'),
+
+    
     #Purchase Items URLS
     path('list-purchase-item', views.ListPurchaseItem.as_view(), name='list-purchase-item'),
     path('add-purchase-item', views.AddPurchaseItem.as_view(), name='add-purchase-item'),

@@ -20,15 +20,15 @@
 
         <li class="menu-header">Front Desk</li>
         <!-- Add Purchase -->
-            <li class="dropdown"><a class="nav-link has-dropdown" href="#"><i class="fas fa-user-tag"></i><span>Customer</span></a>
+            <li class="dropdown"><a class="nav-link has-dropdown" href="#"><i class="fas fa-users"></i><span>Customer</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="#">Customer List</a></li>
                 <li><a class="nav-link" href="#">Customer Report</a></li>
               </ul>  
             </li>
-            <li><a class="nav-link" href="#"><i class="fas fa-truck-loading"></i><span>Dining</span></a></li>
-            <li><a class="nav-link" href="#"><i class="fas fa-dolly-flatbed"></i><span>Generate Bill</span></a></li>
-            <li><a class="nav-link" href="#"><i class="fas fa-book"></i><span>Sales Report</span></a></li>
+            <li><a class="nav-link" href="#"><i class="fas fa-utensils"></i><span>Dining</span></a></li>
+            <li><a class="nav-link" href="#"><i class="fas fa-file-invoice-dollar"></i><span>Generate Bill</span></a></li>
+            <li><a class="nav-link" href="#"><i class="fas fa-receipt"></i><span>Sales Report</span></a></li>
 
         <!-- Purchase Section -->
         <li class="menu-header">Inventory</li>
@@ -53,7 +53,7 @@
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{% url 'list-menu-category'  %}">Menu Category</a></li>
             <li><a class="nav-link" href="{% url 'list-purchase-category'  %}">Purchase Category</a></li>
-            <li><a class="nav-link" href="#">Room Category</a></li>
+            <li><a class="nav-link" href="{% url 'list-room-category'  %}">Room Category</a></li>
             <li><a class="nav-link" href="#">Units</a></li>
           </ul>  
         </li>

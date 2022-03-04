@@ -90,6 +90,10 @@ class RoomCategory(TimeStamp):
 
     def __str__(self):
         return self.category_name
+
+    def get_absolute_url(self):
+        return reverse('list-room-category')
+
     class Meta:
         verbose_name_plural = 'Room Category'
 class RoomDetails(TimeStamp):
@@ -99,7 +103,7 @@ class RoomDetails(TimeStamp):
         (3,'King Bed'),
     )
     id = models.BigAutoField(primary_key=True)
-    category = models.ForeignKey(RoomCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE)
     room_name = models.CharField(max_length=255)
     price = models.FloatField()
     room_type = models.CharField(choices=ROOM_TYPE, max_length=255)
