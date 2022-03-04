@@ -1,4 +1,4 @@
-# FYP-Project
+# FYP-Project | Hotel Management System
 
 # To Run This Program
 - Create a Folder and Download the code and keep inside the folder.
