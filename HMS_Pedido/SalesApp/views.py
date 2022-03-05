@@ -43,3 +43,17 @@ class RoomBookingView(View):
         room_booking = RoomBooking(room=room, rate=rate, days=days, customer=customer, paid=False)
         room_booking.save()
         return HttpResponse('Success')
+
+def ListGenerateBillView(request):
+    if request.method == 'GET':
+        objects = RoomBooking.objects.filter(paid=False)
+        context = {
+            'objects': objects
+        }
+        return render(request, 'Sales/list-generate-bill.html', context)
+
+    
+def OrderItemView(request, pk):
+    if request.method == 'GET':
+        return render(request, 'Sales/order-item.html')
+

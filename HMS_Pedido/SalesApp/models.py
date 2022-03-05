@@ -25,3 +25,23 @@ class RoomBooking(TimeStamp):
 
     def __str__(self) -> str:
         return str(self.room)
+
+class OrderMaster(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    room = models.ForeignKey(RoomBooking, on_delete=models.PROTECT, related_name='order_master')
+    total_bill = models.IntegerField()
+    paid = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return str(self.room)
+
+class OrderDetails(TimeStamp):
+    id = models.BigAutoField(primary_key=True)
+    order_master = models.ForeignKey(OrderMaster, on_delete=models.CASCADE, related_name='order_details')
+    item = models.ForeignKey(MenuItems, on_delete=models.PROTECT)
+    qty = models.IntegerField()
+    amt = models.IntegerField()
+
+    def __str__(self) -> str:
+        return str(self.item)
+
