@@ -17,11 +17,11 @@ class Customer(TimeStamp):
 
 class RoomBooking(TimeStamp):  
     id = models.BigAutoField(primary_key=True)
-    room = models.ForeignKey(RoomDetails, on_delete=models.PROTECT)
+    room = models.ForeignKey(RoomDetails, on_delete=models.PROTECT, related_name='room_booking')
     rate = models.IntegerField()
     days = models.IntegerField()
     customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
     paid = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.room
+        return str(self.room)

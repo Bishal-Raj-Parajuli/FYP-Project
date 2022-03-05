@@ -10,6 +10,83 @@
 
 
 {% block content %}
- This is booking Page
+<div class="card">
+    <div class="card-header">
+        <div class="m-2"><a href="{% url 'list-dining'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
+    </div>
+    <div class="card-body">
+    <form action="#" method="POST">
+        {% csrf_token %}
+      <div class="row">
+          <div class="col">
+            <div class="form-group">
+                <label>Room</label>
+                <input type="text" class="form-control" value="{{room.room_name}}">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+                <label>Customer</label>
+                <select class="form-control" name="customer">
+                    {% for customer in customers %}
+                        <option value="{{ customer.id }}"> {{ customer.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+          </div>
+      </div>  
+      <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label>Check-In Date</label>
+                <input type="date" class="form-control datepicker">
+              </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Check-Out Date</label>
+                <input type="date" class="form-control datepicker">
+              </div>
+        </div>
+    </div>  
+    <div class="row">
+        <div class="form-group mx-3">
+            <label>No. of Days</label>
+            <input type="text" class="form-control" name="days">
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Rate</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      Rs.
+                    </div>
+                  </div>
+                  <input type="text" class="form-control currency" value="{{ room.price }}" name="rate">
+                </div>
+              </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Total</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      Rs.
+                    </div>
+                  </div>
+                  <input type="text" class="form-control currency">
+                </div>
+              </div>
+        </div>
+    </div> 
+    <button class="btn btn-primary" type="submit">Book</button>
+    </form>  
+    </div>
+  </div>
+  
+
+  
 {% endblock content %}
     
