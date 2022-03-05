@@ -1,11 +1,41 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, CreateView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
 from .models import Customer, RoomBooking
 from SettingsApp.models import RoomCategory, RoomDetails
 
 # Create your views here.
+class ListCustomerView(LoginRequiredMixin ,ListView):
+    model = Customer
+    template_name = "Sales/list-customer.html"
+    paginate_by = 10
+
+class CreateCustomerView(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+    model = Customer
+    success_message = 'Customer Created Sucessfully !!!'
+    fields = '__all__'
+    template_name = "Sales/add-customer.html"
+
+class UpdateCustomerView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Customer
+    success_message = 'Customer Updated Successfully !!!'
+    fields = '__all__'
+    template_name = 'Sales/update-customer.html'
+
+def DeleteCustomerView(request, pk):
+    object = Customer.objects.get(pk=pk)
+    name = object.name
+    object.delete()
+    messages.success(request, f'Customer {name} Deleted Successfully')
+    return HttpResponseRedirect(reverse('list-customer'))
+
 class ListDiningView(ListView):
     model = RoomCategory
     template_name = 'Sales/list-dining.html'

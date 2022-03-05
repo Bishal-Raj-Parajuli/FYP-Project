@@ -1,3 +1,5 @@
+from email.policy import default
+from django.urls import reverse
 from django.db import models
 from SettingsApp.models import MenuItems, RoomDetails, Unit, TimeStamp
 
@@ -9,11 +11,14 @@ class Customer(TimeStamp):
     address = models.CharField(max_length=200)
     contact = models.CharField(max_length=20, unique=True)
     id_type = models.CharField(max_length=100)
-    id_photo = models.ImageField()
+    id_photo = models.ImageField(default='', blank=True)
     id_no = models.IntegerField()
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('list-customer')
 
 class RoomBooking(TimeStamp):  
     id = models.BigAutoField(primary_key=True)
@@ -40,6 +45,7 @@ class OrderDetails(TimeStamp):
     order_master = models.ForeignKey(OrderMaster, on_delete=models.CASCADE, related_name='order_details')
     item = models.ForeignKey(MenuItems, on_delete=models.PROTECT)
     qty = models.IntegerField()
+    unit = models.ForeignKey(Unit, on_delete=models.PROTECT,)
     amt = models.IntegerField()
 
     def __str__(self) -> str:

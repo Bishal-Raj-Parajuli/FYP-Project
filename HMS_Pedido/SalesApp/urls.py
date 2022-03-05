@@ -1,7 +1,13 @@
 from django.urls import path
-from .views import ListDiningView, ListDiningDetailsView, RoomBookingView, ListGenerateBillView, OrderItemView
+from .views import ListDiningView, ListDiningDetailsView, RoomBookingView, ListGenerateBillView, OrderItemView, ListCustomerView, CreateCustomerView, UpdateCustomerView, DeleteCustomerView
 
 urlpatterns = [
+    # Customer URLS
+    path('list-customer', ListCustomerView.as_view(), name='list-customer'),
+    path('create-customer', CreateCustomerView.as_view(), name='create-customer'),
+    path('update-customer/<int:pk>', UpdateCustomerView.as_view(), name='update-customer'),
+    path('delete-customer/<int:pk>', DeleteCustomerView, name='delete-customer'),
+
     path('list-dining', ListDiningView.as_view(), name='list-dining'),
     path('list-dining/<int:pk>', ListDiningDetailsView, name='list-dining-details'),
     path('book-room/<int:pk>', RoomBookingView.as_view(), name='book-room'),

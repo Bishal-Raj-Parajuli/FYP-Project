@@ -1,15 +1,150 @@
 {% extends 'Main/base.html' %}
 
 {% block title %}
-    Order
+   Order
 {% endblock title %}
 
 {% block page_title %}
- Sales | Order
+ Purchase | Order
 {% endblock page_title %}
 
 
 {% block content %}
-This is order page
+
+<div class="card">
+    <div class="card-header">
+        <div class="m-2"><a href="{% url 'list-generate-bill'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
+    </div>
+    <div class="card-body">
+        <form action="#" method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Invoice No.</label>
+                    <input type="text" class="form-control" name="invoice-no" required>
+                    <div class="invalid-feedback">
+                        This field is Necessary !!!
+                    </div>
+                </div>
+                <div class="form-group mx-2">
+                    <label>Vendor</label>
+                    <select class="form-control" name="vendor">
+                        {% for vendor in vendors %}
+                            <option value="{{ vendor.id }}"> {{ vendor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div> 
+            </div>
+            <hr>
+
+            <!-- Purchase Items -->
+            <div class="card">
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-md">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Unit</th>
+                                <th>Rate</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                              </tr>
+                        </thead>
+                        <tbody id="table_body">
+                        <tr>
+                            <td>
+                                <select class="form-control" name="purchase-item[]" required>
+                                    {% for item in purchaseItems %}
+                                        <option value="{{ item.id }}"> {{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    This field is Necessary !!!
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="qty[]" style="width: 100px;" required>
+                                <div class="invalid-feedback">
+                                    This field is Necessary !!!
+                                </div>
+                            </td>
+                            <td>
+                                <select class="form-control" name="unit[]" style="width: 100px;" required>
+                                    {% for unit in units %}
+                                        <option value="{{ unit.id }}"> {{ unit.unit_code }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    This field is Necessary !!!
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="rate[]" style="width: 100px;" required>
+                                <div class="invalid-feedback">
+                                    This field is Necessary !!!
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="total[]" style="width: 100px;" required>
+                                <div class="invalid-feedback">
+                                    This field is Necessary !!!
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" type="button" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr> 
+
+                        
+                        
+                        </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                    <div class="container row justify-content-between">
+                        <div class="form-group">
+                            <label>Grand Total: </label>
+                            <input type="number" class="form-control" name="grand-total" required>
+                            <div class="invalid-feedback">
+                                This field is Necessary !!!
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary mb-2" type="button" onclick="addRow('table_body')"><i class="fas fa-plus"></i> Add Line</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 {% endblock content %}
+
+
     
+{% block javascript %}
+    <!-- Add and Remove Field Row -->
+    function addRow(table_id){
+        let table_body = document.getElementById(table_id),
+            first_tr = table_body.firstElementChild
+            tr_clone = first_tr.cloneNode(true);
+        table_body.append(tr_clone);
+
+    }
+
+    function deleteRow(This){
+
+        if(This.closest('tbody').childElementCount == 1){
+            alert("You Don't Have Permission to Delete This !!!")
+        }
+        else{
+            This.closest('tr').remove();
+        }
+    }
+    <!-- Add and Remove Field Row -->
+
+
+{% endblock javascript %}

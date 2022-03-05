@@ -2,12 +2,12 @@
 
 
 {% block title %}
-    Vendor's List
+    Customer's List
 {% endblock title %}
     
 
 {% block page_title %}
-    Inventory | Vendor's List
+    Inventory | Customer's List
 {% endblock page_title %}
     
 
@@ -18,7 +18,7 @@
 {% endif %}
     <div class="card">
         <div class="card-header justify-content-between">
-            <div class="m-2"><a href="{% url 'create-vendor'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
+            <div class="m-2"><a href="{% url 'create-customer'  %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add</a></div>
             <form method="get">
             <div class="input-group w-auto">
                     <input type="text" class="form-control " style="border-radius: 5px 0px 0px 5px;" placeholder="Search" aria-label="" name="filter" value="{{filter}}">
@@ -33,7 +33,7 @@
         </form>
         </div>
         <div class="card-body p-0">
-        {% if not vendor_list %}
+        {% if not customer_list %}
         <div class="empty-state" data-height="400" style="height: 400px;">
             <div class="empty-state-icon">
               <i class="fas fa-question"></i>
@@ -42,7 +42,7 @@
             <p class="lead">
               Sorry we can't find any data, to get rid of this message, make at least 1 entry.
             </p>
-            <a href="{% url 'create-vendor'  %}" class="btn btn-primary mt-4">Create new One</a>
+            <a href="{% url 'create-customer'  %}" class="btn btn-primary mt-4">Create new One</a>
           </div>
         {% else %}
         <div class="table-responsive">
@@ -55,13 +55,13 @@
                     <th>Action</th>
                 </tr>
                 
-                {% for object in vendor_list %}
+                {% for object in customer_list %}
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{object.name}}</td>
                     <td>{{object.address}}</td>
-                    <td>{{object.phone}}</td>
-                    <td><a href="{% url 'update-vendor' object.id  %}" class="btn btn-primary">Update</a><a class="btn btn-danger mx-2" href="{% url 'delete-vendor' object.id  %}"><i class="fas fa-trash"></i></a></td>
+                    <td>{{object.contact}}</td>
+                    <td><a href="{% url 'update-customer' object.id  %}" class="btn btn-primary">Update</a><a class="btn btn-danger mx-2" href="{% url 'delete-customer' object.id  %}"><i class="fas fa-trash"></i></a></td>
                 </tr>
                 {% endfor %}
                 
