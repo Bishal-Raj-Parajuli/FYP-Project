@@ -1,3 +1,4 @@
+from tkinter import Menu
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,6 +9,8 @@ from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
+
+from HMS_Pedido.SettingsApp.models import MenuItems
 from .models import Customer, RoomBooking
 from SettingsApp.models import RoomCategory, RoomDetails
 
@@ -85,5 +88,7 @@ def ListGenerateBillView(request):
     
 def OrderItemView(request, pk):
     if request.method == 'GET':
+        menu_items = MenuItems.objects.filter(is_ative=True)
+        
         return render(request, 'Sales/order-item.html')
 
