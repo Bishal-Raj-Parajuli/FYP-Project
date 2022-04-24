@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block page_title %}
- Purchase | Order
+ Sales | Order
 {% endblock page_title %}
 
 
@@ -18,23 +18,7 @@
     <div class="card-body">
         <form action="#" method="POST" class="needs-validation" novalidate>
             {% csrf_token %}
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Invoice No.</label>
-                    <input type="text" class="form-control" name="invoice-no" required>
-                    <div class="invalid-feedback">
-                        This field is Necessary !!!
-                    </div>
-                </div>
-                <div class="form-group mx-2">
-                    <label>Vendor</label>
-                    <select class="form-control" name="vendor">
-                        {% for vendor in vendors %}
-                            <option value="{{ vendor.id }}"> {{ vendor.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div> 
-            </div>
+            <h4>Customer: {{ bookingdetails.customer}}</h4> <h4>Room: {{ bookingdetails.room }}</h4>
             <hr>
 
             <!-- Purchase Items -->
@@ -56,7 +40,7 @@
                         <tr>
                             <td>
                                 <select class="form-control" name="purchase-item[]" required>
-                                    {% for item in purchaseItems %}
+                                    {% for item in menuitems %}
                                         <option value="{{ item.id }}"> {{ item.name }}</option>
                                     {% endfor %}
                                 </select>

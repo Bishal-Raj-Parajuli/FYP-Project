@@ -10,9 +10,8 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from HMS_Pedido.SettingsApp.models import MenuItems
 from .models import Customer, RoomBooking
-from SettingsApp.models import RoomCategory, RoomDetails
+from SettingsApp.models import RoomCategory, RoomDetails, MenuItems, Unit
 
 # Create your views here.
 class ListCustomerView(LoginRequiredMixin ,ListView):
@@ -88,7 +87,14 @@ def ListGenerateBillView(request):
     
 def OrderItemView(request, pk):
     if request.method == 'GET':
-        menu_items = MenuItems.objects.filter(is_ative=True)
-        
-        return render(request, 'Sales/order-item.html')
+        menu_items = MenuItems.objects.filter(is_active=True)
+        unit = Unit.objects.filter(is_active=True)
+        booking_details = RoomBooking.objects.get(pk=pk)
+        context = {
+            'menuitems' : menu_items,
+            'units' : unit,
+            'bookingdetails': booking_details,
+        }
+        return render(request, 'Sales/order-item.html', context)
 
+    
