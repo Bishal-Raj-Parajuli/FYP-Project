@@ -9,36 +9,17 @@
         <a href="#">PEDIDO</a>
       </div>
       <ul class="sidebar-menu">
-        <!-- Dashboard Section -->
-        <li class="menu-header">Dashboard</li>
-        <li class="dropdown">
-          <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{% url 'dashboard-view'  %}">General Dashboard</a></li>
-          </ul>
-        </li>
-
         <li class="menu-header">Front Desk</li>
         <!-- Add Purchase -->
-            <li class="dropdown"><a class="nav-link has-dropdown" href="#"><i class="fas fa-users"></i><span>Customer</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{% url 'list-customer'  %}">Customer List</a></li>
-                <li><a class="nav-link" href="#">Customer Report</a></li>
-              </ul>  
-            </li>
+            <li><a class="nav-link" href="{% url 'list-customer'  %}"><i class="fas fa-users"></i><span>Customer</span></a></li>
             <li><a class="nav-link" href="{% url 'list-dining'  %}"><i class="fas fa-utensils"></i><span>Dining</span></a></li>
             <li><a class="nav-link" href="{% url 'list-generate-bill'  %}"><i class="fas fa-file-invoice-dollar"></i><span>Generate Bill</span></a></li>
-            <li><a class="nav-link" href="#"><i class="fas fa-receipt"></i><span>Sales Report</span></a></li>
+            <li><a class="nav-link" href="{% url 'sales-report'  %}"><i class="fas fa-receipt"></i><span>Sales Report</span></a></li>
 
         <!-- Purchase Section -->
         <li class="menu-header">Inventory</li>
         <!-- Add Purchase -->
-            <li class="dropdown"><a class="nav-link has-dropdown" href="#"><i class="fas fa-user-tag"></i><span>Vendor</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{% url 'list-vendor'  %}">Vendor Details</a></li>
-                <li><a class="nav-link" href="#">Vendor Report</a></li>
-              </ul>  
-            </li>
+            <li><a class="nav-link" href="{% url 'list-vendor'  %}"><i class="fas fa-user-tag"></i><span>Vendor</span></a></li>
             <li><a class="nav-link" href="{% url 'list-purchase'  %}"><i class="fas fa-truck-loading"></i><span>Purchase</span></a></li>
             <li><a class="nav-link" href="{% url 'list-issue'  %}"><i class="fas fa-dolly-flatbed"></i><span>Issue</span></a></li>
             <li><a class="nav-link" href="{% url 'view-stock'  %}"><i class="fas fa-book"></i><span>Item Legder</span></a></li>

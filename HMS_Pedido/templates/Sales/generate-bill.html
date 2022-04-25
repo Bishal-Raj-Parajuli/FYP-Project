@@ -1,0 +1,91 @@
+{% extends 'Main/base.html' %}
+
+{% block title %}
+    Bill
+{% endblock title %}
+
+{% block page_title %}
+ Settings | Bill
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="m-2"><a href="{% url 'list-generate-bill'  %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</a></div>
+
+<div class="invoice">
+    <div class="invoice-print">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="invoice-title">         
+            <h2>Pedido | Sales Bill</h2>
+            <div class="invoice-number">Invoice No: {{room_booking.id}} </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <address>
+                <h6>Customer</h6>
+                  <strong>{{ room_booking.customer }}</strong><br>
+                  Address: {{room_booking.customer.address }}<br>
+                  Contact: {{room_booking.customer.phone }}
+              </address>
+            </div>
+            <div class="col-md-6 text-md-right">
+              <address>
+                <strong>Purchase Details:</strong><br>
+                Payment Mode: Cash<br>
+                Check-In Date: {{ room_booking.created_at }}<br>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-md">
+              <tbody>
+              <tr>
+                <th data-width="40" style="width: 40px;">S.N</th>
+                <th>Item</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Rate</th>
+                <th class="text-right">Total</th>
+              </tr>
+              <tr>
+                  <td>0. </td>
+                  <td>Room</td>
+                  <td class="text-center">{{ room_booking.days }} Days</td>
+                  <td class="text-center">{{ room_booking.rate }}</td>
+                  <td class="text-right">Rs. {{total_room_bill}}</td>
+              </tr>
+              {% for object in order_details %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ object.item }}</td>
+                    <td class="text-center">{{ object.qty }} {{ object.unit }}</td>
+                    <td class="text-center">Rs. ...</td>
+                    <td class="text-right">Rs. {{object.amt}}</td>
+                </tr>
+              {% endfor %}
+            </tbody></table>
+          </div>
+          <div class="row mt-4">
+              <hr class="mt-2 mb-2">
+              <div class="invoice-detail-item">
+                <div class="invoice-detail-name">Total Bill</div>
+                <div class="invoice-detail-value invoice-detail-value-lg">Rs. {{grand_total}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="text-md-right">
+      <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>
+    </div>
+  </div>
+{% endblock content %}
+    

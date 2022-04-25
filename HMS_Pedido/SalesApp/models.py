@@ -27,9 +27,9 @@ class RoomBooking(TimeStamp):
     days = models.IntegerField()
     customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
     paid = models.BooleanField(default=False)
-
+    #Total Amount
     def __str__(self) -> str:
-        return str(self.room)
+        return str(self.id)
 
 class OrderMaster(TimeStamp):
     id = models.BigAutoField(primary_key=True)
@@ -38,7 +38,7 @@ class OrderMaster(TimeStamp):
     paid = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return str(self.room)
+        return str(self.id)
 
 class OrderDetails(TimeStamp):
     id = models.BigAutoField(primary_key=True)
@@ -50,4 +50,3 @@ class OrderDetails(TimeStamp):
 
     def __str__(self) -> str:
         return str(self.item)
-

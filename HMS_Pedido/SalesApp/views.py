@@ -1,7 +1,8 @@
+from multiprocessing import context
 from tkinter import Menu
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+#from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -10,22 +11,23 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from .models import Customer, RoomBooking
+#from SalesApp.models import Customer, OrderDetails, OrderMaster, RoomBooking
+from SalesApp.models import Customer, OrderDetails, OrderMaster, RoomBooking
 from SettingsApp.models import RoomCategory, RoomDetails, MenuItems, Unit
 
 # Create your views here.
-class ListCustomerView(LoginRequiredMixin ,ListView):
+class ListCustomerView(ListView):
     model = Customer
     template_name = "Sales/list-customer.html"
     paginate_by = 10
 
-class CreateCustomerView(LoginRequiredMixin ,SuccessMessageMixin, CreateView):
+class CreateCustomerView(SuccessMessageMixin, CreateView):
     model = Customer
     success_message = 'Customer Created Sucessfully !!!'
     fields = '__all__'
     template_name = "Sales/add-customer.html"
 
-class UpdateCustomerView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateCustomerView(SuccessMessageMixin, UpdateView):
     model = Customer
     success_message = 'Customer Updated Successfully !!!'
     fields = '__all__'
@@ -86,15 +88,117 @@ def ListGenerateBillView(request):
 
     
 def OrderItemView(request, pk):
+    booking_details = RoomBooking.objects.get(pk=pk)
+    order_masters = OrderMaster.objects.filter(room=pk, paid=False)
+    menu_items = MenuItems.objects.filter(is_active=True)
+    unit = Unit.objects.filter(is_active=True)
     if request.method == 'GET':
-        menu_items = MenuItems.objects.filter(is_active=True)
-        unit = Unit.objects.filter(is_active=True)
-        booking_details = RoomBooking.objects.get(pk=pk)
-        context = {
-            'menuitems' : menu_items,
-            'units' : unit,
-            'bookingdetails': booking_details,
-        }
-        return render(request, 'Sales/order-item.html', context)
+        if order_masters:
+            for order_master in order_masters:
+                order_details = OrderDetails.objects.filter(order_master=order_master)
+            context = {
+                'menuitems' : menu_items,
+                'units' : unit,
+                'order_masters':order_masters,
+                'bookingdetails':booking_details,
+                'order_details': order_details
+            }
+            return render(request, 'Sales/update-order-item.html', context)
+        else:
+            context = {
+                'menuitems' : menu_items,
+                'units' : unit,
+                'bookingdetails': booking_details,
+            }
+            return render(request, 'Sales/order-item.html', context)
 
-    
+    if request.method == "POST":
+        ## Order Master ##
+        if order_masters:
+            order_item_id = request.POST.getlist('order-item[]')
+            qty = request.POST.getlist('qty[]')
+            total = request.POST.getlist('total[]')
+
+            for order_master in order_masters:
+                i=0
+                for item in order_item_id:
+                    order_item = MenuItems.objects.get(id=item)
+                    order_details = OrderDetails.objects.filter(order_master=order_master.id, item=order_item)
+                    for order_detail in order_details:
+                        order_detail.qty = qty[i]
+                        order_detail.amt = total[i]
+                        order_detail.save()
+                    i=i+1
+            if request.POST.getlist('new-order-item[]'):
+                new_order_item_id = request.POST.getlist('new-order-item[]')
+                new_qty = request.POST.getlist('new-qty[]')
+                new_unit_id = request.POST.getlist('new-unit[]')
+                new_total = request.POST.getlist('new-total[]')
+
+                i=0
+                for item in new_order_item_id:
+                    order_item = MenuItems.objects.get(id=item)
+                    unit = Unit.objects.get(id=new_unit_id[i])
+                    order_details = OrderDetails(order_master=order_master, item=order_item, qty=new_qty[i], unit=unit, amt=new_total[i])
+                    order_details.save()
+                    i=i+1
+
+            room = booking_details
+            grand_total = request.POST.get('grand-total')
+            for order_master in order_masters:
+                order_master.total_bill = grand_total
+                order_master.save()
+            messages.success(request, 'Successfully Added !!!')
+            return HttpResponseRedirect(reverse('list-generate-bill'))
+
+        else:
+            room = booking_details
+            grand_total = request.POST.get('grand-total')
+            order_master = OrderMaster(room=room, total_bill=grand_total)
+            order_master.save()
+
+            ## Order Details ##
+            order_item_id = request.POST.getlist('order-item[]')
+            qty = request.POST.getlist('qty[]')
+            unit_id = request.POST.getlist('unit[]')
+            total = request.POST.getlist('total[]')
+            
+            i=0
+            for item in order_item_id:
+                order_item = MenuItems.objects.get(id=item)
+                unit = Unit.objects.get(id=unit_id[i])
+                order_details = OrderDetails(order_master=order_master, item=order_item, qty=qty[i], unit=unit, amt=total[i])
+                order_details.save()
+                i=i+1
+            messages.success(request, 'Successfully Added !!!')
+            return HttpResponseRedirect(reverse('list-generate-bill'))
+
+def GenerateBill(request, pk):
+    room_booking = RoomBooking.objects.get(pk=pk)
+    order_master = OrderMaster.objects.get(room=room_booking)
+    total = room_booking.days * room_booking.rate
+    if request.method == 'GET':
+        if room_booking.paid == False:
+            room_booking.paid = True
+            room_booking.save()
+            order_masters = OrderMaster.objects.filter(room=room_booking, paid=False)
+            for order_master in order_masters:
+                order_master.paid = True
+                order_master.save()
+        context = {
+            'room_booking': room_booking,
+            'order_master': order_master,
+            'order_details': OrderDetails.objects.filter(order_master=order_master),
+            'total_room_bill': total,
+            'grand_total': total + order_master.total_bill
+        }
+        return render(request, 'Sales/generate-bill.html', context)
+
+def SalesReport(request):
+    room_booking = RoomBooking.objects.filter(paid=True)
+    order_master = OrderMaster.objects.filter(paid=True)
+    context = {
+        'room_booking': room_booking,
+        'order_master': order_master,
+    }
+    return render(request, 'Sales/list-sales-report.html', context)

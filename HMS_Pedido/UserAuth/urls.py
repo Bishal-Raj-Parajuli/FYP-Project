@@ -4,7 +4,6 @@ from . import views
 urlpatterns = [
     #Views
     path('', views.LoginView, name='login-view'),
-    path('dashboard', views.DashboardView, name='dashboard-view'),
 
     #Process
     path('login-process', views.LoginProcess, name='login-process'),

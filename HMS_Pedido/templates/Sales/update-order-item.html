@@ -1,11 +1,11 @@
 {% extends 'Main/base.html' %}
 
 {% block title %}
-   Order
+   Order 2
 {% endblock title %}
 
 {% block page_title %}
- Sales | Order
+ Sales | Order 2
 {% endblock page_title %}
 
 
@@ -36,29 +36,26 @@
                                 <th>Action</th>
                               </tr>
                         </thead>
-                        <tbody id="table_body">
+                        <tbody>
+                        {% for order_detail in order_details %}
                         <tr>
                             <td>
                                 <select class="form-control" name="order-item[]" required>
-                                    {% for item in menuitems %}
-                                        <option value="{{ item.id }}"> {{ item.name }}</option>
-                                    {% endfor %}
+                                    <option value="{{ order_detail.item.id }}" selected>{{ order_detail.item }}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     This field is Necessary !!!
                                 </div>
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="qty[]" style="width: 100px;" required>
+                                <input type="number" value="{{ order_detail.qty }}" class="form-control" name="qty[]" style="width: 100px;" required>
                                 <div class="invalid-feedback">
                                     This field is Necessary !!!
                                 </div>
                             </td>
                             <td>
                                 <select class="form-control" name="unit[]" style="width: 100px;" required>
-                                    {% for unit in units %}
-                                        <option value="{{ unit.id }}"> {{ unit.unit_code }}</option>
-                                    {% endfor %}
+                                        <option value="{{ order_detail.unit.id }}"> {{ order_detail.unit}}</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     This field is Necessary !!!
@@ -71,7 +68,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="total[]" style="width: 100px;" required>
+                                <input type="number" value="{{ order_detail.amt }}" class="form-control" name="total[]" style="width: 100px;" required>
                                 <div class="invalid-feedback">
                                     This field is Necessary !!!
                                 </div>
@@ -81,8 +78,52 @@
                             </td>
                         </tr> 
 
-                        
-                        
+                        {% endfor %}
+                        </tbody>
+                        <tbody id="table_body">
+                            <tr>
+                                <td>
+                                    <select class="form-control" name="new-order-item[]">
+                                        {% for item in menuitems %}
+                                            <option value="{{ item.id }}">{{ item.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        This field is Necessary !!!
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="new-qty[]" style="width: 100px;" required>
+                                    <div class="invalid-feedback">
+                                        This field is Necessary !!!
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="form-control" name="new-unit[]" style="width: 100px;" required>
+                                        {% for unit in units %}
+                                            <option value="{{ unit.id }}"> {{ unit.unit_code }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        This field is Necessary !!!
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="new-rate[]" style="width: 100px;" required>
+                                    <div class="invalid-feedback">
+                                        This field is Necessary !!!
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="new-total[]" style="width: 100px;" required>
+                                    <div class="invalid-feedback">
+                                        This field is Necessary !!!
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" type="button" onclick="deleteRowNew(this)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr> 
                         </tbody>
                     </table>
                   </div>
@@ -90,7 +131,9 @@
                     <div class="container row justify-content-between">
                         <div class="form-group">
                             <label>Grand Total: </label>
-                            <input type="number" class="form-control" name="grand-total" required>
+                            {% for order_master in order_masters %}
+                            <input type="number" class="form-control" name="grand-total" value="{{ order_master.total_bill }}" required>
+                            {% endfor %}
                             <div class="invalid-feedback">
                                 This field is Necessary !!!
                             </div>
@@ -128,7 +171,11 @@
             This.closest('tr').remove();
         }
     }
+    function deleteRowNew(This){
+            This.closest('tr').remove();
+    }
     <!-- Add and Remove Field Row -->
+
 
 
 {% endblock javascript %}

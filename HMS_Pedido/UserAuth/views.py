@@ -16,7 +16,7 @@ def LoginProcess(request):
     user = authenticate(request=request, username=username, password=password)
     if user is not None:
         login(request=request, user=user)
-        return redirect("dashboard-view")
+        return redirect("list-dining")
     else:
         messages.error(request, "Error in Login !! Invalid Details") 
         return redirect("login-view")

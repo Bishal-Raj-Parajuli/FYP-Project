@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListDiningView, ListDiningDetailsView, RoomBookingView, ListGenerateBillView, OrderItemView, ListCustomerView, CreateCustomerView, UpdateCustomerView, DeleteCustomerView
+from .views import ListDiningView, ListDiningDetailsView, RoomBookingView, ListGenerateBillView, OrderItemView, ListCustomerView, CreateCustomerView, UpdateCustomerView, DeleteCustomerView, GenerateBill, SalesReport
 
 urlpatterns = [
     # Customer URLS
@@ -12,5 +12,8 @@ urlpatterns = [
     path('list-dining/<int:pk>', ListDiningDetailsView, name='list-dining-details'),
     path('book-room/<int:pk>', RoomBookingView.as_view(), name='book-room'),
     path('list-generate-bill', ListGenerateBillView, name='list-generate-bill'),
-    path('order-item/<int:pk>', OrderItemView, name='order-item')
+    path('order-item/<int:pk>', OrderItemView, name='order-item'),
+    path('generate-bill/<int:pk>', GenerateBill, name='generate-bill' ),
+    path('sales-report', SalesReport, name='sales-report')
+    #path('update-order-item/<int:pk>', OrderItemView, name='update-order-item')
 ]
